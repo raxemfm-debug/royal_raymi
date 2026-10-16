@@ -4,8 +4,8 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import bannerChocoBerries from '../assets/banners/choco-berries.webp';
 import bannerBombones from '../assets/banners/festival_de_bombones.webp';
 import bannerHelados from '../assets/banners/helados.webp';
-import bannerRoyalRaymi from '../assets/banners/royal_raymi.webp';
 import bannerSaborAyacuchano from '../assets/banners/sabor_ayacuchano.webp';
+import bannerRoyalRaymi from '../assets/banners/royal_raymi.webp';
 
 interface BannerSlide {
   id: string;
@@ -61,12 +61,11 @@ export const AvelinaHero: React.FC = () => {
   }, [nextSlide]);
 
   return (
-    <section className="relative w-full bg-[#FAF7F2] overflow-hidden select-none">
-      {/* Contenedor del Carrusel con altura adaptativa:
-          - Móvil: Altura automática proporcional para que NUNCA recorte los bordes
-          - Desktop: Altura balanceada sin deformar
+    <section className="relative w-full overflow-hidden select-none bg-white">
+      {/* Contenedor ajustado a la proporción real del banner:
+          aspect-[16/7] en móvil y aspect-[21/9] en PC para eliminar cualquier franja blanca
       */}
-      <div className="relative w-full aspect-[4/3] sm:aspect-[16/9] md:aspect-[21/9] max-h-[75vh] flex items-center justify-center bg-[#FAF7F2]">
+      <div className="relative w-full aspect-[16/7] sm:aspect-[16/7] md:aspect-[21/9] overflow-hidden">
         <div
           className="flex w-full h-full transition-transform duration-700 ease-out"
           style={{ transform: `translateX(-${currentIndex * 100}%)` }}
@@ -74,12 +73,12 @@ export const AvelinaHero: React.FC = () => {
           {BANNERS.map((banner) => (
             <div
               key={banner.id}
-              className="w-full h-full flex-shrink-0 flex items-center justify-center relative bg-[#FAF7F2]"
+              className="w-full h-full flex-shrink-0 relative overflow-hidden"
             >
               <img
                 src={banner.image}
                 alt={banner.alt}
-                className="w-full h-full object-contain md:object-cover object-center"
+                className="w-full h-full object-cover object-center"
                 loading="eager"
               />
             </div>
@@ -90,31 +89,31 @@ export const AvelinaHero: React.FC = () => {
         <button
           onClick={prevSlide}
           aria-label="Anterior diapositiva"
-          className="absolute left-2 sm:left-4 z-20 flex h-9 w-9 sm:h-11 sm:w-11 items-center justify-center rounded-full bg-black/30 text-white backdrop-blur-sm transition-all hover:bg-black/50 active:scale-95"
+          className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-20 flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-full bg-black/35 text-white backdrop-blur-sm transition-all hover:bg-black/55 active:scale-95"
         >
-          <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6" />
+          <ChevronLeft className="h-4 w-4 sm:h-5 sm:w-5" />
         </button>
 
         {/* Flecha Derecha */}
         <button
           onClick={nextSlide}
           aria-label="Siguiente diapositiva"
-          className="absolute right-2 sm:right-4 z-20 flex h-9 w-9 sm:h-11 sm:w-11 items-center justify-center rounded-full bg-black/30 text-white backdrop-blur-sm transition-all hover:bg-black/50 active:scale-95"
+          className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-20 flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-full bg-black/35 text-white backdrop-blur-sm transition-all hover:bg-black/55 active:scale-95"
         >
-          <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6" />
+          <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5" />
         </button>
 
-        {/* Indicadores / Puntos inferiores */}
-        <div className="absolute bottom-3 sm:bottom-5 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 rounded-full bg-black/25 backdrop-blur-sm">
+        {/* Indicadores / Puntos dentro del banner */}
+        <div className="absolute bottom-2.5 sm:bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1.5 sm:gap-2 px-2.5 py-1 rounded-full bg-black/30 backdrop-blur-sm">
           {BANNERS.map((_, idx) => (
             <button
               key={idx}
               onClick={() => setCurrentIndex(idx)}
               aria-label={`Ir a la diapositiva ${idx + 1}`}
-              className={`h-2 transition-all duration-300 rounded-full ${
+              className={`h-1.5 sm:h-2 transition-all duration-300 rounded-full ${
                 currentIndex === idx
-                  ? 'w-6 bg-white shadow-sm'
-                  : 'w-2 bg-white/50 hover:bg-white/80'
+                  ? 'w-5 sm:w-6 bg-white shadow-sm'
+                  : 'w-1.5 sm:w-2 bg-white/50 hover:bg-white/80'
               }`}
             />
           ))}
