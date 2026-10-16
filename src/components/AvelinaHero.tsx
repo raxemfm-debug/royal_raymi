@@ -62,10 +62,11 @@ export const AvelinaHero: React.FC = () => {
 
   return (
     <section className="relative w-full overflow-hidden select-none bg-white">
-      {/* Contenedor ajustado a la proporción real del banner:
-          aspect-[16/7] en móvil y aspect-[21/9] en PC para eliminar cualquier franja blanca
-      */}
-      <div className="relative w-full aspect-[16/7] sm:aspect-[16/7] md:aspect-[21/9] overflow-hidden">
+      {/* Contenedor con ratio exacto 2.75 / 1: encaja la imagen al 100% sin recortar laterales ni dejar vacíos */}
+      <div 
+        className="relative w-full overflow-hidden"
+        style={{ aspectRatio: '2.75 / 1' }}
+      >
         <div
           className="flex w-full h-full transition-transform duration-700 ease-out"
           style={{ transform: `translateX(-${currentIndex * 100}%)` }}
@@ -73,38 +74,38 @@ export const AvelinaHero: React.FC = () => {
           {BANNERS.map((banner) => (
             <div
               key={banner.id}
-              className="w-full h-full flex-shrink-0 relative overflow-hidden"
+              className="w-full h-full flex-shrink-0 relative overflow-hidden flex items-center justify-center bg-white"
             >
               <img
                 src={banner.image}
                 alt={banner.alt}
-                className="w-full h-full object-cover object-center"
+                className="w-full h-full object-contain object-center"
                 loading="eager"
               />
             </div>
           ))}
         </div>
 
-        {/* Flecha Izquierda */}
+        {/* Flecha Izquierda (compacta en móvil para no tapar el texto) */}
         <button
           onClick={prevSlide}
           aria-label="Anterior diapositiva"
-          className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-20 flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-full bg-black/35 text-white backdrop-blur-sm transition-all hover:bg-black/55 active:scale-95"
+          className="absolute left-1.5 sm:left-4 top-1/2 -translate-y-1/2 z-20 flex h-7 w-7 sm:h-10 sm:w-10 items-center justify-center rounded-full bg-black/25 sm:bg-black/35 text-white backdrop-blur-sm transition-all hover:bg-black/55 active:scale-95"
         >
-          <ChevronLeft className="h-4 w-4 sm:h-5 sm:w-5" />
+          <ChevronLeft className="h-3.5 w-3.5 sm:h-5 sm:w-5" />
         </button>
 
-        {/* Flecha Derecha */}
+        {/* Flecha Derecha (compacta en móvil para no tapar la caja ni la mano) */}
         <button
           onClick={nextSlide}
           aria-label="Siguiente diapositiva"
-          className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-20 flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-full bg-black/35 text-white backdrop-blur-sm transition-all hover:bg-black/55 active:scale-95"
+          className="absolute right-1.5 sm:right-4 top-1/2 -translate-y-1/2 z-20 flex h-7 w-7 sm:h-10 sm:w-10 items-center justify-center rounded-full bg-black/25 sm:bg-black/35 text-white backdrop-blur-sm transition-all hover:bg-black/55 active:scale-95"
         >
-          <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5" />
+          <ChevronRight className="h-3.5 w-3.5 sm:h-5 sm:w-5" />
         </button>
 
-        {/* Indicadores / Puntos dentro del banner */}
-        <div className="absolute bottom-2.5 sm:bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1.5 sm:gap-2 px-2.5 py-1 rounded-full bg-black/30 backdrop-blur-sm">
+        {/* Indicadores / Puntos */}
+        <div className="absolute bottom-2 sm:bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1.5 sm:gap-2 px-2.5 py-0.5 sm:py-1 rounded-full bg-black/25 backdrop-blur-sm">
           {BANNERS.map((_, idx) => (
             <button
               key={idx}
@@ -112,7 +113,7 @@ export const AvelinaHero: React.FC = () => {
               aria-label={`Ir a la diapositiva ${idx + 1}`}
               className={`h-1.5 sm:h-2 transition-all duration-300 rounded-full ${
                 currentIndex === idx
-                  ? 'w-5 sm:w-6 bg-white shadow-sm'
+                  ? 'w-4 sm:w-6 bg-white shadow-sm'
                   : 'w-1.5 sm:w-2 bg-white/50 hover:bg-white/80'
               }`}
             />
