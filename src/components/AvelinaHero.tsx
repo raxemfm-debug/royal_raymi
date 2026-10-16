@@ -52,7 +52,7 @@ export const AvelinaHero: React.FC = () => {
     setCurrentIndex((prev) => (prev === BANNERS.length - 1 ? 0 : prev + 1));
   }, []);
 
-  // Autoplay cada 5 segundos
+  // Autoplay continuo cada 5 segundos
   useEffect(() => {
     const timer = setInterval(() => {
       nextSlide();
@@ -62,8 +62,8 @@ export const AvelinaHero: React.FC = () => {
 
   return (
     <section className="relative w-full overflow-hidden select-none bg-white">
-      {/* Contenedor con ratio exacto 2.75 / 1: encaja la imagen al 100% sin recortar laterales ni dejar vacíos */}
-      <div 
+      {/* Contenedor panorámico 2.75 / 1: coincide con la proporción real del banner para encajar de borde a borde */}
+      <div
         className="relative w-full overflow-hidden"
         style={{ aspectRatio: '2.75 / 1' }}
       >
@@ -86,7 +86,7 @@ export const AvelinaHero: React.FC = () => {
           ))}
         </div>
 
-        {/* Flecha Izquierda (compacta en móvil para no tapar el texto) */}
+        {/* Flecha Izquierda (compacta en móvil para no tapar la tipografía) */}
         <button
           onClick={prevSlide}
           aria-label="Anterior diapositiva"
@@ -104,7 +104,7 @@ export const AvelinaHero: React.FC = () => {
           <ChevronRight className="h-3.5 w-3.5 sm:h-5 sm:w-5" />
         </button>
 
-        {/* Indicadores / Puntos */}
+        {/* Puntos de navegación inferiores */}
         <div className="absolute bottom-2 sm:bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1.5 sm:gap-2 px-2.5 py-0.5 sm:py-1 rounded-full bg-black/25 backdrop-blur-sm">
           {BANNERS.map((_, idx) => (
             <button
