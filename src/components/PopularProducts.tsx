@@ -56,7 +56,7 @@ export const PopularProducts: React.FC<PopularProductsProps> = ({ onGoToProduct 
             · Selección Especial ·
           </span>
           <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl tracking-wide text-[#2B1B17] uppercase">
-            POPULAR PRODUCTS
+            PRODUCTOS POPULARES
           </h2>
           <div className="w-14 h-[2px] bg-[#B58A52] mx-auto mt-4" />
         </div>

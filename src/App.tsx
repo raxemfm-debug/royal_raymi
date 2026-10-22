@@ -16,8 +16,10 @@ import { MapPin, Navigation, Clock, } from "lucide-react";
 import imgMontefino from "./assets/puntos_de_venta/punto_de_venta_montefino.webp";
 import imgUNSCH from "./assets/puntos_de_venta/punto_de_venta_tiendas UNSCH.webp";
 import imgVimarket from "./assets/puntos_de_venta/punto_de_venta_Vimarket.webp";
-
-
+import { CorporateVideo } from './components/CorporateVideo';
+import { BlogView } from './components/BlogView';
+import { TikTokGallery } from './components/TiktokGallery';
+import { SocialSidebar } from './components/SocialSidebar';
 
 
 const ALL_CATEGORIES = ["Todos", "Chocolates", "Café", "Polvos y Nibs"];
@@ -173,28 +175,40 @@ export default function App() {
             {/* Productos Populares (Avelina) */}
             <PopularProducts onGoToProduct={handleGoToProduct} />
 
-            {/* Días Especiales / Regalos (Avelina) */}
-            <SpecialDays onGoToShop={() => setCurrentPage("tienda")} />
+            {/* 2. Video Corporativo Compacto (AQUÍ EN MEDIO) */}
+            <CorporateVideo />
+
+            <SpecialDays
+              onGoToProduct={handleGoToProduct}
+              onGoToShop={() => handleNavigate("tienda")}
+            />
+
+            <TikTokGallery />
 
             {/* Sección Productores e Historia */}
             <ProducersSection />
+
           </>
         )}
 
         {/* VISTA 2: TIENDA */}
-{currentPage === "tienda" && (
-  <ShopView
-    selectedCategory={selectedCategory}
-    targetProduct={targetProduct}
-    onClearTarget={() => setTargetProduct(null)}
-  />
-)}
+        {currentPage === "tienda" && (
+          <ShopView
+            selectedCategory={selectedCategory}
+            targetProduct={targetProduct}
+            onClearTarget={() => setTargetProduct(null)}
+          />
+        )}
 
         {/* VISTA: PRODUCTORES */}
         {currentPage === "productores" && (
           <div className="py-8">
             <ProducersSection />
           </div>
+        )}
+        {/* VISTA: BLOG */}
+        {currentPage === "blog" && (
+          <BlogView onGoToShop={() => handleNavigate("tienda")} />
         )}
 
         {/* VISTA: NOSOTROS */}
@@ -376,10 +390,10 @@ export default function App() {
       </main>
 
       {/* 3. Footer Oficial */}
-<Footer
-  onNavigate={(tab) => setCurrentPage(tab as NavPage)}
-  onSelectCategory={handleFooterCategory}
-/>
+      <Footer
+        onNavigate={(tab) => setCurrentPage(tab as NavPage)}
+        onSelectCategory={handleFooterCategory}
+      />
 
 
       {/* 4. Sidebar Avelina (Panel lateral complementario con logo centrado y reseñas) */}
@@ -409,6 +423,9 @@ export default function App() {
 
       {/* 7. Widget Flotante de WhatsApp */}
       <WhatsAppWidget />
+
+      <SocialSidebar />
+
     </div>
   );
 }

@@ -7,25 +7,34 @@ interface ProductCardProps {
   onAddToCart?: (product: ProductItem, quantity: number) => void;
 }
 
-export const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
+export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const [showDetail, setShowDetail] = useState(false);
   const [quantity, setQuantity] = useState(1);
+
+    const handleOrderWhatsApp = () => {
+    const phoneNumber = '51967179747';
+    
+    const message = [
+      '¡Hola Royal Raymi! Deseo realizar un pedido / consulta:',
+      '',
+      `• *Producto:* ${product.name}`,
+      `• *Categoría:* ${product.category || 'General'}`,
+      `• *Cantidad:* ${quantity} unidad(es)`,
+      '',
+      '¿Tienen disponibilidad inmediata y cuáles son las opciones de entrega? ¡Muchas gracias!',
+    ].join('\n');
+
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+  };
+
 
   // 1. Detección automática y conversión estricta a .webp
   const rawImage = (product as any).imageUrl || (product as any).image || (product as any).image_url || '';
   const imgSrc = rawImage.replace(/\.(jpg|jpeg|png)$/i, '.webp');
 
-  const handleAddToCart = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (onAddToCart) {
-      onAddToCart(product, quantity);
-    }
-    setShowDetail(false);
-    setQuantity(1);
-  };
-
   return (
-    <div 
+    <div
       className="relative bg-white rounded-2xl p-4 sm:p-5 border border-stone-200/80 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between cursor-pointer group min-h-[380px]"
       onClick={() => !showDetail && setShowDetail(true)}
     >
@@ -63,7 +72,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }
 
       {/* MINICARD DESPLEGABLE EN EL MISMO LUGAR ESTÁTICO */}
       {showDetail && (
-        <div 
+        <div
           className="absolute inset-0 z-20 bg-[#FAF7F2] rounded-2xl p-5 border-2 border-[#B58A52]/60 shadow-xl flex flex-col justify-between animate-in fade-in duration-200"
           onClick={(e) => e.stopPropagation()}
         >
@@ -112,7 +121,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }
             </div>
 
             <button
-              onClick={handleAddToCart}
+              onClick={handleOrderWhatsApp}
+
               className="w-full py-2 px-3 bg-[#3B241C] text-white rounded-xl text-xs font-medium hover:bg-[#2B1B17] transition-colors flex items-center justify-center gap-2 shadow-sm"
             >
               <ShoppingBag className="w-3.5 h-3.5" />

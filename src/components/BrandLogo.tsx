@@ -13,7 +13,7 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
 }) => {
   return (
     <img
-      src="/assets/brand/Royal-Raymi-logo-cacao-profundo.png"
+      src="/assets/brand/Blue_Royal_Raymi_logo.webp"
       alt={altText}
       className={`h-10 sm:h-12 w-auto object-contain transition-transform duration-200 hover:opacity-90 ${className}`}
       width={240}

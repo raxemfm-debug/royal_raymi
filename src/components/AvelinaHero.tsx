@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-import bannerChocoBerries from '../assets/banners/choco-berries.webp';
-import bannerBombones from '../assets/banners/festival_de_bombones.webp';
-import bannerHelados from '../assets/banners/helados.webp';
-import bannerSaborAyacuchano from '../assets/banners/sabor_ayacuchano.webp';
-import bannerRoyalRaymi from '../assets/banners/royal_raymi.webp';
+import banner_café_de_calidd from '../assets/banners/café_de_calidad.webp';
+import banner_chocotejas_premium from '../assets/banners/chocotejas_premium.webp';
+import banner_todo_un_mundo from '../assets/banners/todo_un_mundo.webp';
 
 interface BannerSlide {
   id: string;
@@ -15,29 +13,19 @@ interface BannerSlide {
 
 const BANNERS: BannerSlide[] = [
   {
-    id: 'choco-berries',
-    image: bannerChocoBerries,
-    alt: 'Choco Berries Royal Raymi',
+    id: 'café_de_calidad',
+    image: banner_café_de_calidd,
+    alt: 'Café de Calidad Royal Raymi',
   },
   {
-    id: 'festival-bombones',
-    image: bannerBombones,
-    alt: 'Festival de Bombones Royal Raymi',
+    id: 'chocotejas_premium',
+    image: banner_chocotejas_premium,
+    alt: 'Chocotejas Premium Royal Raymi',
   },
   {
-    id: 'helados',
-    image: bannerHelados,
-    alt: 'Línea de Helados Artesanales Royal Raymi',
-  },
-  {
-    id: 'sabor-ayacuchano',
-    image: bannerSaborAyacuchano,
-    alt: 'Sabor Ayacuchano del VRAEM para el Mundo',
-  },
-  {
-    id: 'royal-raymi-principal',
-    image: bannerRoyalRaymi,
-    alt: 'Royal Raymi The Scent of VRAEM',
+    id: 'todo_un_mundo',
+    image: banner_todo_un_mundo,
+    alt: 'todo un mundo Royal Raymi',
   },
 ];
 
