@@ -1,122 +1,147 @@
-import React from 'react';
-
-interface PopularProduct {
-  id: string;
-  name: string;
-  category: string;
-  image: string;
-  targetName?: string;
-}
-
-const POPULAR_ITEMS: PopularProduct[] = [
-  {
-    id: 'choc-huamanguino',
-    name: 'Chocolate Huamanguino 300g',
-    category: 'CHOCOLATES TRADICIONAL',
-    image: '/assets/products/chocolate-huamanguino-300-g.webp',
-    targetName: 'Chocolate Huamanguino 300g'
-  },
-  {
-    id: 'polvo-cacao-150',
-    name: 'Polvo de Cacao 150g',
-    category: 'DERIVADOS',
-    image: '/assets/products/polvo_de_cacao_150g.webp',
-    targetName: 'Polvo de Cacao 150g'
-  },
-  {
-    id: 'grageas-arandanos-100',
-    name: 'Grageas de Arándanos y Aguaymanto 100g',
-    category: 'GRAGEADOS',
-    image: '/assets/products/grageas-de-arandanos-y-aguaymanto-100-g.webp',
-    targetName: 'Grageas de arándanos y aguaymanto'
-  },
-  {
-    id: 'grageas-cafe-180',
-    name: 'Grageas de Café 180g',
-    category: 'GRAGEADOS',
-    image: '/assets/products/grageas-de-cafe-180-g.webp',
-    targetName: 'Grageas de café'
-  },
-  {
-    id: 'grageas-almendras-180',
-    name: 'Grageas de Almendras 180g',
-    category: 'GRAGEADOS',
-    image: '/assets/products/grageas-de-almendras-180-g.webp',
-    targetName: 'Grageas de almendras'
-  },
-  {
-    id: 'cafe-tueste-americano-250',
-    name: 'Café Tueste Americano 250g',
-    category: 'CAFÉ',
-    image: '/assets/products/café_tueste_americano_250g.webp',
-    targetName: 'Café Tueste Americano 250g'
-  }
-];
+import React from "react";
 
 interface PopularProductsProps {
   onGoToProduct?: (productName: string) => void;
 }
 
+interface PopularItem {
+  id: number;
+  name: string;
+  tagline: string;
+  category: string;
+  image: string;
+  weight: string;
+}
+
+const POPULAR_ITEMS: PopularItem[] = [
+  {
+    id: 1,
+    name: "Chocolate Huamanguino 300g",
+    tagline: "Receta ancestral con notas intensas y canela",
+    category: "Chocolates Tradicional",
+    image: "/assets/products/chocolate-huamanguino-300-g.webp",
+    weight: "300 g",
+  },
+  {
+    id: 2,
+    name: "Polvo de Cacao 150g",
+    tagline: "Cacao puro 100% fino de aroma del VRAEM",
+    category: "Derivados",
+    image: "/assets/products/polvo_de_cacao_150g.webp",
+    weight: "150 g",
+  },
+  {
+    id: 3,
+    name: "Grageas de Arándanos y Aguaymanto 100g",
+    tagline: "Frutos andinos cubiertos en chocolate al 70%",
+    category: "Grageados",
+    image: "/assets/products/grageas-de-arandanos-y-aguaymanto-100-g.webp",
+    weight: "100 g",
+  },
+  {
+    id: 4,
+    name: "Grageas de Café 180g",
+    tagline: "Granos de café arábica tostado cubiertos en cacao",
+    category: "Grageados",
+    image: "/assets/products/grageas-de-cafe-180-g.webp",
+    weight: "180 g",
+  },
+  {
+    id: 5,
+    name: "Grageas de Almendras 180g",
+    tagline: "Almendras selectas con cobertura de chocolate gourmet",
+    category: "Grageados",
+    image: "/assets/products/grageas-de-almendras-180-g.webp",
+    weight: "180 g",
+  },
+  {
+    id: 6,
+    name: "Café Tueste Americano 250g",
+    tagline: "Café de altura con cuerpo balanceado y aroma floral",
+    category: "Café",
+    image: "/assets/products/café_tueste_americano_250g.webp",
+    weight: "250 g",
+  },
+];
+
 export const PopularProducts: React.FC<PopularProductsProps> = ({ onGoToProduct }) => {
   return (
-    <section className="w-full bg-[#FAF7F2] py-16 px-4 md:px-8 border-t border-[#EAE3D9]">
-      <div className="max-w-7xl mx-auto">
-        
-        {/* Encabezado Editorial Avelina */}
-        <div className="text-center mb-12">
-          <span className="text-xs uppercase tracking-widest text-[#B58A52] font-semibold">
-            · SELECCIÓN ESPECIAL ·
+    <section className="py-16 md:py-24 bg-[#FDFBF7]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Cabecera Editorial */}
+        <div className="text-center max-w-2xl mx-auto mb-14">
+          <span className="text-[#B58A52] text-xs uppercase tracking-[0.25em] font-semibold font-serif">
+            Selección Destacada
           </span>
-          <h2 className="text-3xl md:text-4xl font-serif text-[#3B241C] mt-2">
-            LOS MÁS PEDIDOS
+          <h2 className="text-3xl md:text-4xl font-serif text-[#3B241C] mt-2 mb-4">
+            Los Más Pedidos
           </h2>
-          <div className="w-12 h-[2px] bg-[#B58A52] mx-auto mt-4" />
+          <div className="w-12 h-0.5 bg-[#B58A52] mx-auto mb-4" />
+          <p className="text-[#7A6B63] text-sm md:text-base leading-relaxed">
+            Nuestros clásicos favoritos de chocolate, café de origen y frutos bañados en cacao.
+          </p>
         </div>
 
-        {/* Grilla de 6 productos */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6">
+        {/* Grid de 6 Tarjetas (1 col móvil, 2 col tablet, 3 col desktop) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {POPULAR_ITEMS.map((item) => (
             <div
               key={item.id}
-              className="bg-white rounded-2xl p-4 flex flex-col justify-between items-center text-center shadow-sm hover:shadow-md transition-all duration-300 border border-[#F0EAE1] group"
+              onClick={() => onGoToProduct && onGoToProduct(item.name)}
+              className="bg-white rounded-2xl border border-[#E9E0D6] p-5 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between group cursor-pointer"
             >
-              {/* Imagen con zoom sutil */}
-              <div className="w-full h-44 md:h-48 flex items-center justify-center overflow-hidden mb-3">
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  className="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-105"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src = '/assets/brand/royal-raymi-logo-azul.png';
-                  }}
-                />
-              </div>
-
-              {/* Categoría y Título */}
-              <div className="w-full flex-1 flex flex-col justify-between">
-                <div>
-                  <span className="text-[10px] uppercase tracking-wider text-[#8A7968] font-medium block mb-1">
+              <div>
+                {/* Imagen del Producto con zoom hover y fallback */}
+                <div className="relative aspect-square w-full rounded-xl overflow-hidden bg-[#FAF7F2] mb-5 flex items-center justify-center p-4">
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = "/assets/brand/royal-raymi-logo-azul.png";
+                    }}
+                  />
+                  {/* Etiqueta de peso */}
+                  <span className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm border border-[#E9E0D6] text-[#3B241C] text-[11px] font-medium px-2.5 py-0.5 rounded-full">
+                    {item.weight}
+                  </span>
+                  {/* Etiqueta de categoría */}
+                  <span className="absolute top-3 left-3 bg-[#3B241C]/80 text-[#FAF7F2] text-[10px] uppercase tracking-wider font-semibold px-2.5 py-0.5 rounded-full">
                     {item.category}
                   </span>
-                  <h3 className="font-serif text-[#3B241C] text-sm md:text-base font-medium line-clamp-2 leading-snug">
-                    {item.name}
-                  </h3>
                 </div>
 
-                {/* Botón Ver en tienda */}
+                {/* Info del Producto */}
+                <h3 className="font-serif text-lg md:text-xl text-[#3B241C] font-semibold group-hover:text-[#B58A52] transition-colors leading-snug">
+                  {item.name}
+                </h3>
+                <p className="text-xs text-[#7A6B63] mt-2 leading-relaxed">
+                  {item.tagline}
+                </p>
+              </div>
+
+              {/* Botón de acción */}
+              <div className="pt-6 mt-4 border-t border-[#F0E8DD]">
                 <button
                   type="button"
-                  onClick={() => onGoToProduct && onGoToProduct(item.targetName || item.name)}
-                  className="mt-4 text-xs font-semibold text-[#B58A52] group-hover:text-[#3B241C] flex items-center justify-center gap-1 transition-colors duration-200"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (onGoToProduct) {
+                      onGoToProduct(item.name);
+                    }
+                  }}
+                  className="w-full py-2.5 px-4 rounded-full border border-[#B58A52] text-[#3B241C] group-hover:bg-[#3B241C] group-hover:text-[#FAF7F2] group-hover:border-[#3B241C] transition-all duration-300 text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-2"
                 >
-                  Ver en tienda &rarr;
+                  <span>Ver en Tienda</span>
+                  <span className="text-sm">→</span>
                 </button>
               </div>
             </div>
           ))}
         </div>
-
       </div>
     </section>
   );
 };
+
+export default PopularProducts;

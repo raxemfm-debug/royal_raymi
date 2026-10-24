@@ -215,6 +215,14 @@ export const PRODUCTS: Product[] = [
     description: 'Especialidad Witakao elaborada con cacao nativo y receta tradicional.',
     imageUrl: '/assets/products/chocolate_witakao.webp',
   },
+  {
+    id: 'empaque-chocolate-aguaymanto-arandanos-100g',
+    name: 'Chocolate con Aguaymanto y Arándanos 100g',
+    category: 'Chocolates de Sabores',
+    categoryKey: 'chocolates_sabores',
+    description: 'Tableta en doypack con frutos deshidratados y cacao ayacuchano.',
+    imageUrl: '/assets/products/empaque_de_chocolate_con_aguaymanto_y_arandanos_100g.webp',
+  },
 
   // ========================================================
   // 3. GRAGEADOS (palabra "GRAGEAS")
@@ -379,15 +387,6 @@ export const PRODUCTS: Product[] = [
     isPopular: true,
   },
   {
-    id: 'cafe-tueste-frances-500g',
-    name: 'Café Tueste Francés 500g',
-    category: 'Café',
-    categoryKey: 'cafe',
-    description: 'Tueste oscuro estilo francés con cuerpo pronunciado y notas a chocolate amargo.',
-    imageUrl: '/assets/products/café_tueste_francés_500g.webp',
-    isPopular: true,
-  },
-  {
     id: 'cafe-tueste-frances-1kg',
     name: 'Café Tueste Francés 1kg',
     category: 'Café',
@@ -456,7 +455,7 @@ export const PRODUCTS: Product[] = [
     category: 'Derivados',
     categoryKey: 'derivados',
     description: 'Presentación de medio kilo para repostería y preparación tradicional.',
-    imageUrl: '/assets/products/pasta_de_cacao_gourmet_500g.webp',
+    imageUrl: '/assets/products/pasta_de_cacao_gourmet_500g.png',
   },
   {
     id: 'pasta-cacao-gourmet-1kg',
