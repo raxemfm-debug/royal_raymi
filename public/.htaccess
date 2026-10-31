@@ -1,0 +1,13 @@
+# Royal Raymi — React/Vite SPA en hosting Apache o LiteSpeed.
+# Instalar en la raíz pública (public_html o document root del dominio).
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Archivos y directorios reales se sirven directamente.
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+
+  # Cualquier ruta React se resuelve desde index.html.
+  RewriteRule ^ index.html [L]
+</IfModule>
