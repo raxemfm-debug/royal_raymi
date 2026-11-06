@@ -1,137 +1,166 @@
-import React, { useState } from 'react';
-import { ShoppingBag, X, Plus, Minus } from 'lucide-react';
-import type { ProductItem } from '../data/products';
+import { useState } from 'react';
+import { ArrowUpRight, Eye, MessageCircle } from 'lucide-react';
+import type { Product as ProductItem } from '../data/products';
+import {
+  PLACEHOLDER,
+  formatPrice,
+  productAvailable,
+  productAgeRestricted,
+  productOrderEnabled,
+  productCategory,
+  productImages,
+  productName,
+  productOldPrice,
+  productPrice,
+  productUrl,
+  productWeight
+} from '../store/productAdapter';
+import { requestProductWhatsApp } from '../store/whatsapp';
+import type { AddCallback } from '../store/useProductActions';
+import ProductQuickView from './ProductQuickView';
 
-interface ProductCardProps {
+export interface ProductCardProps {
   product: ProductItem;
-  onAddToCart?: (product: ProductItem, quantity: number) => void;
+  onSelectProduct?: (product: ProductItem) => void;
+  onAddToCart?: AddCallback;
 }
 
-export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
-  const [showDetail, setShowDetail] = useState(false);
-  const [quantity, setQuantity] = useState(1);
-
-    const handleOrderWhatsApp = () => {
-    const phoneNumber = '51967179747';
-    
-    const message = [
-      '¡Hola Royal Raymi! Deseo realizar un pedido / consulta:',
-      '',
-      `• *Producto:* ${product.name}`,
-      `• *Categoría:* ${product.category || 'General'}`,
-      `• *Cantidad:* ${quantity} unidad(es)`,
-      '',
-      '¿Tienen disponibilidad inmediata y cuáles son las opciones de entrega? ¡Muchas gracias!',
-    ].join('\n');
-
-    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
-  };
-
-
-  // 1. Detección automática y conversión estricta a .webp
-  const rawImage = (product as any).imageUrl || (product as any).image || (product as any).image_url || '';
-  const imgSrc = rawImage.replace(/\.(jpg|jpeg|png)$/i, '.webp');
+export const ProductCard = ({ product }: ProductCardProps) => {
+  const [quickOpen, setQuickOpen] = useState(false);
+  const url = productUrl(product);
+  const name = productName(product);
+  const price = productPrice(product);
+  const oldPrice = productOldPrice(product);
+  const available = productAvailable(product);
+  const restricted = productAgeRestricted(product);
+  const canRequest = productOrderEnabled(product);
+  const request = () => requestProductWhatsApp(product, 1);
 
   return (
-    <div
-      className="relative bg-white rounded-2xl p-4 sm:p-5 border border-stone-200/80 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between cursor-pointer group min-h-[380px]"
-      onClick={() => !showDetail && setShowDetail(true)}
-    >
-      {/* VISTA FRONTAL ESTÁTICA */}
-      <div className="flex flex-col items-center text-center w-full">
-        {/* Imagen del producto en .webp real */}
-        <div className="w-full aspect-square bg-[#FAF7F2] rounded-xl p-4 flex items-center justify-center overflow-hidden mb-4">
-          <img
-            src={imgSrc}
-            alt={product.name}
-            className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-            loading="lazy"
-          />
+    <>
+      <article className="group relative flex h-full min-w-0 flex-col overflow-hidden rounded-2xl border border-[#EFE8DF] bg-white transition-all duration-300 hover:-translate-y-1 hover:border-[#B58A52]/40 hover:shadow-[0_16px_32px_rgba(44,24,16,0.06)]">
+        {/* Contenedor de Imagen */}
+        <div className="relative overflow-hidden bg-[#FAF7F2]">
+          <a
+            href={url}
+            aria-label={`Ver detalles de ${name}`}
+            className="block aspect-[4/5] w-full p-5 focus-visible:outline-2 focus-visible:outline-[#B58A52]"
+          >
+            <img
+              src={productImages(product)[0] || PLACEHOLDER}
+              onError={event => {
+                event.currentTarget.onerror = null;
+                event.currentTarget.src = PLACEHOLDER;
+              }}
+              alt={name}
+              loading="lazy"
+              decoding="async"
+              className="h-full w-full object-contain transition-transform duration-500 ease-out group-hover:scale-[1.05]"
+            />
+          </a>
+
+          {/* Botón Flotante Vista Rápida */}
+          <button
+            type="button"
+            aria-label={`Vista rápida de ${name}`}
+            title="Vista rápida"
+            onClick={() => setQuickOpen(true)}
+            className="absolute bottom-3 right-3 z-10 flex h-9 w-9 items-center justify-center rounded-full border border-[#E6DDD3] bg-white/95 text-[#2C1810] shadow-sm transition hover:bg-[#2C1810] hover:text-[#FAF7F2] focus-visible:outline-2 focus-visible:outline-[#B58A52] lg:translate-y-2 lg:opacity-0 lg:group-hover:translate-y-0 lg:group-hover:opacity-100 sm:group-focus-within:translate-y-0 sm:group-focus-within:opacity-100"
+          >
+            <Eye size={16} />
+          </button>
+
+          {/* Badges de Disponibilidad */}
+          {!available && (
+            <span className="absolute left-3 top-3 rounded-full bg-[#2C1810]/90 px-3 py-1 font-sans text-[9px] font-semibold uppercase tracking-wider text-[#FAF7F2]">
+              No disponible
+            </span>
+          )}
+          {restricted && available && (
+            <span className="absolute left-3 top-3 rounded-full bg-[#2C1810]/90 px-3 py-1 font-sans text-[9px] font-semibold uppercase tracking-wider text-[#FAF7F2]">
+              Disponible · Venta regulada
+            </span>
+          )}
         </div>
 
-        {/* Categoría */}
-        <span className="text-[10px] uppercase tracking-widest text-[#B58A52] font-semibold mb-1">
-          {product.category}
-        </span>
+        {/* Información Tipográfica Editorial */}
+        <div className="flex flex-1 flex-col px-5 pb-5 pt-4">
+          <span className="mb-1 font-sans text-[10px] font-medium uppercase tracking-[0.22em] text-[#8C7A6B]">
+            {productCategory(product)}
+          </span>
 
-        {/* Nombre del Producto */}
-        <h3 className="font-serif font-semibold text-[#2B1B17] text-base leading-snug line-clamp-2">
-          {product.name}
-        </h3>
-
-        {/* Formato / Gramaje */}
-        {(product as any).weight && (
-          <p className="text-xs text-stone-500 mt-1">Formato: {(product as any).weight}</p>
-        )}
-      </div>
-
-      <div className="mt-4 pt-3 border-t border-stone-100 flex items-center justify-center text-xs text-[#8C5D38] font-medium">
-        <span>Tocar para ver detalle</span>
-      </div>
-
-      {/* MINICARD DESPLEGABLE EN EL MISMO LUGAR ESTÁTICO */}
-      {showDetail && (
-        <div
-          className="absolute inset-0 z-20 bg-[#FAF7F2] rounded-2xl p-5 border-2 border-[#B58A52]/60 shadow-xl flex flex-col justify-between animate-in fade-in duration-200"
-          onClick={(e) => e.stopPropagation()}
-        >
-          {/* Cabecera con botón de cerrar */}
-          <div className="flex items-center justify-between pb-2 border-b border-stone-200">
-            <span className="text-[10px] uppercase tracking-widest bg-[#3B241C] text-white px-2 py-0.5 rounded font-medium">
-              {product.category}
-            </span>
-            <button
-              onClick={() => setShowDetail(false)}
-              className="p-1 rounded-full text-stone-500 hover:text-[#3B241C] hover:bg-stone-200/60 transition-colors"
-              title="Cerrar detalle"
+          <h3 className="mb-1 min-h-[3rem] font-serif text-[17px] font-normal leading-snug text-[#2C1810]">
+            <a
+              href={url}
+              className="transition-colors duration-200 hover:text-[#B58A52] focus-visible:underline"
             >
-              <X className="w-4 h-4" />
-            </button>
-          </div>
+              {name}
+            </a>
+          </h3>
 
-          {/* Contenido descriptivo */}
-          <div className="my-auto py-2 text-center space-y-2">
-            <h4 className="font-serif font-semibold text-[#2B1B17] text-sm sm:text-base leading-snug">
-              {product.name}
-            </h4>
-            <p className="text-xs text-stone-600 leading-relaxed font-light line-clamp-4">
-              {product.description || 'Elaborado con selectos granos de cacao fino de aroma y técnicas artesanales de Ayacucho.'}
+          {productWeight(product) && (
+            <p className="mb-2 font-serif italic text-xs text-[#96847A]">
+              {productWeight(product)}
             </p>
-          </div>
+          )}
 
-          {/* Selector de cantidad y botón añadir al carrito */}
-          <div className="space-y-3 pt-2 border-t border-stone-200">
-            <div className="flex items-center justify-center gap-3">
-              <button
-                onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                className="w-7 h-7 rounded border border-stone-300 bg-white flex items-center justify-center text-stone-700 hover:bg-stone-100"
-              >
-                <Minus className="w-3 h-3" />
-              </button>
-              <span className="text-xs font-semibold text-[#2B1B17] w-6 text-center">
-                {quantity}
+          {/* Bloque de Precios y Acción */}
+          <div className="mt-auto pt-3 border-t border-[#EFE8DF]/60">
+            <div className="mb-3 flex flex-wrap items-baseline gap-2">
+              <span className="font-serif text-[16px] font-medium text-[#2C1810]">
+                {price === null ? (
+                  <span className="font-sans text-[12px] font-medium uppercase tracking-wider text-[#B58A52]">
+                    Consultar precio
+                  </span>
+                ) : (
+                  formatPrice(price)
+                )}
               </span>
-              <button
-                onClick={() => setQuantity(quantity + 1)}
-                className="w-7 h-7 rounded border border-stone-300 bg-white flex items-center justify-center text-stone-700 hover:bg-stone-100"
-              >
-                <Plus className="w-3 h-3" />
-              </button>
+              {oldPrice !== null && price !== null && oldPrice > price && (
+                <span className="font-serif text-xs text-stone-400 line-through">
+                  {formatPrice(oldPrice)}
+                </span>
+              )}
             </div>
 
-            <button
-              onClick={handleOrderWhatsApp}
+            <div className="grid grid-cols-[1fr_auto] gap-2">
+              <button
+                type="button"
+                onClick={request}
+                disabled={!canRequest}
+                className="flex min-h-[38px] items-center justify-center gap-2 rounded-xl bg-[#2C1810] px-3 font-sans text-xs font-medium text-[#FAF7F2] transition hover:bg-[#4A2B1D] disabled:opacity-40"
+              >
+                <MessageCircle size={14} className="shrink-0" />
+                {restricted ? (
+                  <span>Venta regulada</span>
+                ) : (
+                  <>
+                    <span className="sm:hidden">WhatsApp</span>
+                    <span className="hidden sm:inline">Pedir por WhatsApp</span>
+                  </>
+                )}
+              </button>
 
-              className="w-full py-2 px-3 bg-[#3B241C] text-white rounded-xl text-xs font-medium hover:bg-[#2B1B17] transition-colors flex items-center justify-center gap-2 shadow-sm"
-            >
-              <ShoppingBag className="w-3.5 h-3.5" />
-              <span>Añadir al carrito</span>
-            </button>
+              <a
+                href={url}
+                title={`Ver ${name}`}
+                aria-label={`Abrir ${name}`}
+                className="flex h-[38px] w-[38px] items-center justify-center rounded-xl border border-[#E5DAD0] text-[#2C1810] transition hover:border-[#B58A52] hover:text-[#B58A52]"
+              >
+                <ArrowUpRight size={16} />
+              </a>
+            </div>
           </div>
         </div>
+      </article>
+
+      {quickOpen && (
+        <ProductQuickView
+          product={product}
+          onClose={() => setQuickOpen(false)}
+        />
       )}
-    </div>
+    </>
   );
 };
 

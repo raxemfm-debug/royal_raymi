@@ -1,10 +1,10 @@
 import React from 'react';
 
 const videos = [
-  {
-    image: '/assets/float_images/almond_and_vino.webp',
-    fallback: '/assets/float_images/almond_and_vino.jpg',
-    alt: 'Almond and vino',
+    {
+    image: '/assets/float_images/botella_de_licor.webp',
+    fallback: '/assets/float_images/botella_de_licor.webp',
+    alt: 'Botella de Licor Royal Raymi',
     url: 'https://www.tiktok.com/@royal_raymi/video/7528275839235017990',
   },
   {

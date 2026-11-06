@@ -1,111 +1,106 @@
-import React from 'react';
+import { PRODUCTS } from '../data/products';
+import { PLACEHOLDER, productImages, productName } from '../store/productAdapter';
 
-interface SpecialDaysProps {
-  onGoToProduct?: (productName: string) => void;
-  onGoToShop?: () => void;
-}
+const GIFTS = [
+  { id: 'bonomix-pack-8', caption: 'Favorito de Regalo', description: 'Bombones surtidos con rellenos finos' },
+  { id: 'geisha-cafe-tostado-grano-entero-250g', caption: 'Calidad Mundial', description: 'Café Geisha de especialidad · 250g' },
+  { id: 'caja-chocolates-prodigio', caption: 'Selección Gourmet', description: 'Una selección de chocolates para compartir' },
+  { id: 'botella-licor-cafe-premium', caption: 'Licores de Origen', description: 'Macerado artesanal con finos granos de Café' },
+];
 
-export const SpecialDays: React.FC<SpecialDaysProps> = ({ onGoToProduct, onGoToShop }) => {
+export function SpecialDays({ onGoToProduct }: { onGoToProduct?: (key: string) => void }) {
+  const handleOpenProduct = (productId: string) => {
+    if (onGoToProduct) {
+      onGoToProduct(productId);
+    } else {
+      window.location.assign(`/producto/${encodeURIComponent(productId)}`);
+    }
+  };
 
   return (
-    <section className="py-16 lg:py-24 bg-[#FAF7F2] border-b border-stone-200/60">
-      <div className="max-w-7xl mx-auto px-6 lg:px-12 text-center">
-        {/* Encabezado con Script según referencia Avelina */}
-        <div className="inline-flex items-baseline justify-center gap-2 mb-12">
-          <h2 className="font-serif text-3xl lg:text-4xl tracking-widest text-[#2B1B17] uppercase">
-            PARA DÍAS ESPECIALES
+    <section className="bg-white px-5 py-16 sm:px-8 lg:py-24">
+      <div className="mx-auto max-w-[1320px]">
+        {/* Encabezado Editorial Avelina */}
+        <header className="text-center">
+          <p className="font-sans text-[11px] font-medium uppercase tracking-[0.3em] text-[#B58A52]">
+            Ediciones & Detalles
+          </p>
+          <h2 className="mt-2 font-serif text-3xl font-light tracking-wide text-[#2C1810] sm:text-4xl lg:text-[40px]">
+            PARA DÍAS ESPECIALES{' '}
+            <span className="font-serif italic font-normal text-[#B58A52]">
+              selección de regalos
+            </span>
           </h2>
-          <span className="font-serif italic text-2xl lg:text-3xl text-[#963E32] -rotate-6">
-            selección de regalos
-          </span>
-        </div>
+          <div className="mx-auto mt-3 h-[1px] w-12 bg-[#B58A52]/60" />
+        </header>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-          {[
-            {
-              title: 'Caja Regalo Corazón de Cacao',
-              sub: 'Edición Amor & Amistad',
-              tag: 'Detalle Especial',
-              img: '/assets/products/chocotejas-caja-x-10.webp',
-              targetName: 'Chocotejas', // Busca las chocotejas en el catálogo
-            },
-            {
-              title: 'Choco Berries & Naranjas',
-              sub: 'Selección de Bayas Andinas',
-              tag: 'Favorito',
-              img: '/assets/products/choco-berries.webp',
-              targetName: 'Choco berries', // Coincide con la tarjeta de la tienda
-            },
-            {
-              title: 'Café Royality Fine Reserve',
-              sub: 'Tueste Americano 250g',
-              tag: 'Aroma Intenso',
-              img: '/assets/products/cafe-de-especialidad-edición-limitada.webp',
-              targetName: 'Café', // O el nombre exacto de tu café en el catálogo
-            },
-            {
-              title: 'Pack Degustación Prodigio',
-              sub: 'Maca, Cacao 70% & Superfoods',
-              tag: 'Colección',
-              img: '/assets/products/chocolate-reforzado-con-maca.webp',
-              targetName: 'maca', // O 'Prodigio' según figure en tu catálogo
-            },
+        {/* Grilla de Regalos */}
+        <div className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+          {GIFTS.map(gift => {
+            const p = PRODUCTS.find(product => product.id === gift.id);
+            if (!p) return null;
+            const name = productName(p);
+            const image = productImages(p)[0] || PLACEHOLDER;
 
-          ].map((card, i) => (
-            <div
-              key={i}
-              className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md border border-stone-200/60 flex flex-col items-center text-center transition-all duration-300 group hover:-translate-y-1"
-            >
-              {/* Contenedor de la Imagen */}
-              <div className="w-full h-52 bg-[#F9F6F0] rounded-xl overflow-hidden flex items-center justify-center p-4 mb-5 relative group-hover:bg-[#F4ECE1] transition-colors duration-300">
-                <img
-                  src={card.img}
-                  alt={card.title}
-                  className="max-h-full max-w-full object-contain filter drop-shadow-sm group-hover:scale-105 transition-transform duration-500 ease-out"
-                  onError={(e) => {
-                    e.currentTarget.src = '/assets/producers/foto_principal.jpeg';
-                  }}
-                />
-              </div>
-
-              {/* Etiqueta / Tag Superior */}
-              <span className="text-[10px] font-semibold tracking-widest uppercase text-[#B58A52] mb-1.5">
-                {card.tag}
-              </span>
-
-              {/* Título del Producto */}
-              <h3 className="font-serif text-lg font-medium text-[#2B1B17] tracking-tight line-clamp-1 mb-1">
-                {card.title}
-              </h3>
-
-              {/* Descripción / Subtítulo */}
-              <p className="text-xs text-stone-500 font-light leading-relaxed mb-5 min-h-[32px] flex items-center justify-center">
-                {card.sub}
-              </p>
-
-              {/* Botón de Acción Estilizado */}
-              <div className="w-full mt-auto pt-3 border-t border-stone-100">
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (onGoToProduct) {
-                      onGoToProduct(card.targetName || card.title);
-                    } else if (onGoToShop) {
-                      onGoToShop();
-                    }
-                  }}
-                  className="w-full py-2.5 px-4 rounded-full border border-[#2B1B17] text-[#2B1B17] text-[11px] font-medium tracking-widest uppercase transition-all duration-300 hover:bg-[#2B1B17] hover:text-[#FAF7F2] active:scale-95 flex items-center justify-center gap-2 group/btn"
+            return (
+              <article 
+                key={p.id} 
+                className="group flex flex-col items-center rounded-3xl border border-[#EFE8DF] bg-[#FAF7F2] p-6 text-center transition-all duration-300 hover:-translate-y-1 hover:border-[#B58A52]/40 hover:shadow-lg hover:shadow-[#3B241C]/5"
+              >
+                {/* Imagen del Producto */}
+                <button 
+                  type="button" 
+                  onClick={() => handleOpenProduct(p.id)} 
+                  className="flex aspect-square w-full items-center justify-center overflow-hidden rounded-2xl bg-white p-4 shadow-sm transition-transform duration-500 ease-out focus-visible:outline focus-visible:outline-[#B58A52]" 
+                  aria-label={`Ver detalle de ${name}`}
                 >
-                  <span>Consultar en tienda</span>
-                  <span className="text-xs transition-transform duration-300 group-hover/btn:translate-x-1">
-                    →
-                  </span>
+                  <img 
+                    src={image} 
+                    alt={name} 
+                    className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105" 
+                    loading="lazy" 
+                    onError={e => {
+                      e.currentTarget.onerror = null;
+                      e.currentTarget.src = PLACEHOLDER;
+                    }} 
+                  />
                 </button>
-              </div>
-            </div>
-          ))}
+
+                {/* Subtítulo / Ocasión */}
+                <span className="mt-5 font-sans text-[10px] font-medium uppercase tracking-[0.2em] text-[#B58A52]">
+                  {gift.caption}
+                </span>
+
+                {/* Nombre de Producto Editorial */}
+                <h3 
+                  onClick={() => handleOpenProduct(p.id)}
+                  className="mt-2 min-h-[3.2rem] cursor-pointer font-serif text-[19px] font-normal leading-snug text-[#2C1810] transition-colors duration-200 group-hover:text-[#B58A52] sm:text-[20px]"
+                >
+                  {name}
+                </h3>
+
+                {/* Descripción delicada */}
+                <p className="mt-1 min-h-[2.5rem] font-serif italic text-[13px] leading-relaxed text-[#7A6B62]">
+                  {gift.description}
+                </p>
+
+                {/* Botón Estilo Boutique */}
+                <div className="mt-5 w-full pt-2">
+                  <button 
+                    type="button" 
+                    onClick={() => handleOpenProduct(p.id)} 
+                    className="w-full rounded-full border border-[#2C1810]/30 bg-transparent py-2.5 font-sans text-[10px] font-semibold uppercase tracking-[0.15em] text-[#2C1810] transition-all duration-300 hover:border-[#2C1810] hover:bg-[#2C1810] hover:text-[#FAF7F2]"
+                  >
+                    Ver producto →
+                  </button>
+                </div>
+              </article>
+            );
+          })}
         </div>
       </div>
     </section>
   );
-};
+}
+
+export default SpecialDays;

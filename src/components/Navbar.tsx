@@ -1,97 +1,180 @@
-import React, { useState, useEffect } from "react"
-import { BrandLogo } from "./BrandLogo";
+import React from 'react';
+import { Menu, User, ShieldCheck, ShoppingBag, LogOut } from 'lucide-react';
 
-export type NavPage = "inicio" | "tienda" | "nosotros" | "productores" | "sucursales" | "blog";
+export type NavPage =
+  | 'inicio'
+  | 'tienda'
+  | 'nosotros'
+  | 'productores'
+  | 'puntos_de_venta'
+  | 'sucursales'
+  | 'blog'
+  | 'reclamaciones'
+  | 'admin'
+  | 'pedidos';
 
-export interface NavbarProps {
-  currentPage: NavPage;
-  onNavigate: (page: NavPage) => void;
-  cartCount?: number;
-  onOpenCart?: () => void;
-  onOpenSidebar?: () => void; // <-- AGREGA ESTA LÍNEA
+interface NavbarProps {
+  currentView?: string;
+  currentPage?: string;
+  onNavigate: (page: NavPage | any) => void;
+  onOpenSidebar: () => void;
+  onOpenAuth?: () => void;
+  onLogout?: () => void;
+  userRole?: string | null;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
+  currentView,
   currentPage,
   onNavigate,
   onOpenSidebar,
+  onOpenAuth,
+  onLogout,
+  userRole,
 }) => {
-  const [isScrolled, setIsScrolled] = useState(false);
+  const activePage = currentPage || currentView || 'inicio';
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const navLinks: { id: NavPage; label: string }[] = [
-    { id: "tienda", label: "Tienda" },
-    { id: "nosotros", label: "Nosotros" },
-    { id: "productores", label: "Nuestros Productores" },
-    { id: "sucursales", label: "Puntos de Ventas" },
-    { id: "blog", label: "Blog" },
-  ];
+  // Navegación segura que garantiza salir de la vista de producto
+  const handleNavClick = (page: NavPage) => {
+    if (window.location.pathname.startsWith('/producto')) {
+      window.location.assign(page === 'inicio' ? '/' : `/${page}`);
+    } else {
+      onNavigate(page);
+    }
+  };
 
   return (
-    <header
-      className={`sticky top-0 z-40 w-full transition-all duration-300 ${isScrolled
-          ? "bg-[#FDFBF7]/90 backdrop-blur-md shadow-sm border-b border-[#E9E0D6] py-3.5"
-          : "bg-[#FDFBF7] border-b border-transparent py-5"
-        }`}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-
-        {/* Extremo Izquierdo: Logo Oficial */}
-        <button
-          onClick={() => onNavigate("inicio")}
-          className="flex items-center gap-3 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-[#3B241C] cursor-pointer"
-          aria-label="Ir a Inicio de Royal Raymi"
+    <nav className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#EBE3D5]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+        
+        {/* 1. Logo oficial: siempre redirige a la página principal */}
+        <div
+          onClick={() => handleNavClick('inicio')}
+          className="cursor-pointer flex items-center gap-3 transition-opacity hover:opacity-90 flex-shrink-0"
+          title="Ir al Inicio"
         >
-          <BrandLogo />
-        </button>
+          <img
+            src="/assets/brand/Royal-Raymi-logo-cacao-profundo.png"
+            alt="Royal Raymi"
+            className="h-10 sm:h-12 w-auto object-contain"
+            onError={(e) => {
+              (e.target as HTMLImageElement).src = '/vite.svg';
+            }}
+          />
+        </div>
 
-        {/* Centro: Enlaces de Navegación Independientes */}
-        <nav className="hidden md:flex items-center space-x-8" aria-label="Navegación principal">
-          {navLinks.map((link) => {
-            const isActive = currentPage === link.id;
-            return (
-              <button
-                key={link.id}
-                onClick={() => onNavigate(link.id)}
-                className={`text-xs uppercase tracking-[0.15em] font-medium transition-colors relative py-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B58A52] rounded ${isActive
-                    ? "text-[#3B241C] font-semibold"
-                    : "text-[#756C64] hover:text-[#3B241C]"
-                  }`}
-              >
-                {link.label}
-                {isActive && (
-                  <span className="absolute bottom-0 left-0 w-full h-[2px] bg-[#B58A52] rounded-full" />
-                )}
-              </button>
-            );
-          })}
-        </nav>
-
-        {/* Extremo Derecho: Botón Categorías + Hamburguesa de Líneas Delgadas Estilo Avelina */}
-        <div className="flex items-center gap-4">
-
-          {/* Icono de menú extendido de líneas delgadas (Avelina) */}
+        {/* 2. Links Escritorio (solo visibles en md o superior) */}
+        <div className="hidden md:flex items-center gap-8 lg:gap-9 text-[13.5px] font-semibold tracking-wider text-[#3B241C] uppercase">
           <button
-            onClick={onOpenSidebar}
-            className="p-2 text-[#3B241C] hover:text-[#B58A52] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B58A52] rounded"
-            aria-label="Abrir panel lateral de menú"
+            type="button"
+            onClick={() => handleNavClick('tienda')}
+            className={`py-1 hover:text-[#B58A52] transition-colors ${
+              activePage === 'tienda' ? 'text-[#B58A52] underline underline-offset-8' : ''
+            }`}
           >
-            <div className="w-6 flex flex-col items-end gap-1.5">
-              <span className="w-6 h-[1.5px] bg-[#3B241C] rounded-full transition-all" />
-              <span className="w-4 h-[1.5px] bg-[#3B241C] rounded-full transition-all" />
-              <span className="w-5 h-[1.5px] bg-[#3B241C] rounded-full transition-all" />
+            Tienda
+          </button>
+          <button
+            type="button"
+            onClick={() => handleNavClick('nosotros')}
+            className={`py-1 hover:text-[#B58A52] transition-colors ${
+              activePage === 'nosotros' ? 'text-[#B58A52] underline underline-offset-8' : ''
+            }`}
+          >
+            Nosotros
+          </button>
+          <button
+            type="button"
+            onClick={() => handleNavClick('productores')}
+            className={`py-1 hover:text-[#B58A52] transition-colors ${
+              activePage === 'productores' ? 'text-[#B58A52] underline underline-offset-8' : ''
+            }`}
+          >
+            Nuestros Productores
+          </button>
+          <button
+            type="button"
+            onClick={() => handleNavClick('puntos_de_venta')}
+            className={`py-1 transition-colors hover:text-[#B58A52] ${
+              activePage === 'puntos_de_venta' || activePage === 'sucursales'
+                ? 'text-[#B58A52] underline underline-offset-8'
+                : ''
+            }`}
+          >
+            Puntos de Venta
+          </button>
+          <button
+            type="button"
+            onClick={() => handleNavClick('blog')}
+            className={`py-1 transition-colors hover:text-[#B58A52] ${
+              activePage === 'blog' ? 'text-[#B58A52] underline underline-offset-8' : ''
+            }`}
+          >
+            Blog
+          </button>
+        </div>
+
+        {/* 3. Acciones Derecha (Acceso / Roles + Menú Hamburguesa en móvil) */}
+        <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+          {userRole === 'admin' ? (
+            <button
+              type="button"
+              onClick={() => handleNavClick('admin')}
+              className="inline-flex items-center gap-1.5 sm:gap-2 py-2 px-3 sm:px-4 rounded-full bg-[#3B241C] text-[#FAF7F2] hover:bg-[#B58A52] text-[11px] sm:text-xs font-semibold tracking-wider uppercase transition-colors shadow-sm"
+            >
+              <ShieldCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#B58A52]" />
+              <span>Admin</span>
+            </button>
+          ) : userRole === 'client' ? (
+            <div className="flex items-center gap-1 sm:gap-2">
+              <button
+                type="button"
+                onClick={() => handleNavClick('pedidos')}
+                className={`inline-flex items-center gap-1.5 sm:gap-2 py-2 px-3 sm:px-4 rounded-full text-[11px] sm:text-xs font-semibold tracking-wider uppercase transition-colors shadow-sm ${
+                  activePage === 'pedidos'
+                    ? 'bg-[#B58A52] text-white'
+                    : 'bg-[#3B241C] text-[#FAF7F2] hover:bg-[#B58A52]'
+                }`}
+              >
+                <ShoppingBag className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#FAF7F2]" />
+                <span className="hidden sm:inline">Mis</span> Pedidos
+              </button>
+              {onLogout && (
+                <button
+                  type="button"
+                  onClick={onLogout}
+                  title="Cerrar sesión"
+                  className="p-1.5 sm:p-2 text-[#8C7A6B] hover:text-[#3B241C] transition-colors"
+                >
+                  <LogOut className="w-4 h-4" />
+                </button>
+              )}
             </div>
+          ) : (
+            <button
+              type="button"
+              onClick={onOpenAuth}
+              className="inline-flex items-center gap-1.5 sm:gap-2 px-3.5 py-2 sm:px-5 sm:py-2.5 rounded-full text-[11px] sm:text-xs font-semibold tracking-wider uppercase bg-[#3B241C] text-[#FAF7F2] hover:bg-[#B58A52] transition-all shadow-sm active:scale-95"
+            >
+              <User className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <span>Acceso</span>
+            </button>
+          )}
+
+          {/* Menú Hamburguesa para Móvil */}
+          <button
+            type="button"
+            onClick={onOpenSidebar}
+            className="p-2 text-[#3B241C] hover:text-[#B58A52] md:hidden transition-colors rounded-lg active:bg-stone-100"
+            aria-label="Abrir menú"
+          >
+            <Menu className="w-6 h-6" />
           </button>
         </div>
 
       </div>
-    </header>
+    </nav>
   );
 };
+
+export default Navbar;

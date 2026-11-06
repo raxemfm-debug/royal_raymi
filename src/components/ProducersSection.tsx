@@ -16,7 +16,7 @@ const PRODUCERS: ProducerProfile[] = [
     name: "Ing. Doris Paucar Pizarro",
     role: "Gerente General & Dirección de Calidad",
     region: "Ayacucho / VRAEM",
-    image: "/assets/producers/ing_doris_Gerente_General.jpg", // 👈 .jpg
+    image: "/assets/producers/ing_doris.webp", // 👈 
     bio: "Lidera la visión sostenible de Royal Raymi..."
   },
   {
@@ -24,7 +24,7 @@ const PRODUCERS: ProducerProfile[] = [
     name: "Familias Cacaoteras del Valle",
     role: "Guardianes del Cacao Nativo de Aroma",
     region: "Kimbiri y Pichari, VRAEM",
-    image: "/assets/producers/productores.jpg", // 👈 .jpg
+    image: "/assets/producers/productores.webp", // 👈 .jpg
     bio: "Pequeños agricultores asociados que conservan variedades ancestrales..."
   },
   {
@@ -32,7 +32,7 @@ const PRODUCERS: ProducerProfile[] = [
     name: "Productores de Café de Altura",
     role: "Comunidad de Selva Alta",
     region: "Valle del Río Apurímac",
-    image: "/assets/producers/productores2.jpg", // 👈 .jpg
+    image: "/assets/producers/productores2.webp", // 👈 .jpg
     bio: "Cultivan microlotes de café arábica bajo sombra..."
   },
   {
@@ -40,7 +40,7 @@ const PRODUCERS: ProducerProfile[] = [
     name: "Selección Manual de Cosecha",
     role: "Artesanos de Selección en Planta",
     region: "Planta Artesanal, Ayacucho",
-    image: "/assets/producers/foto_principal.jpeg", // 👈 .jpeg
+    image: "/assets/producers/foto_del_equipo.webp", // 👈 .jpeg
     bio: "Cada lote recibido pasa por una rigurosa separación manual..."
   }
 ];
@@ -166,11 +166,11 @@ export const ProducersSection: React.FC = () => {
             <div className="md:col-span-4 lg:col-span-4 flex justify-center">
               <div className="relative w-48 h-56 sm:w-56 sm:h-64 rounded-2xl overflow-hidden border-2 border-[#B58A52]/40 shadow-xl group">
                 <img
-                  src="/assets/producers/ing_doris_Gerente_General.jpg"
+                  src="/assets/producers/ing_doris.webp"
                   alt="Ing. Doris Paucar Pizarro - Gerente General"
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   onError={(e) => {
-                    e.currentTarget.src = '/assets/producers/foto_principal.jpeg';
+                    e.currentTarget.src = '/assets/producers/ing_doris.webp';
                   }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />

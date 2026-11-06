@@ -48,9 +48,9 @@ const SOCIAL_LINKS = [
 export const SocialSidebar: React.FC = () => {
   return (
     <aside
-      aria-label="Redes sociales de Royal Raymi"
-      className="fixed right-0 top-1/2 z-40 flex -translate-y-1/2 flex-col gap-1 rounded-l-xl border-y border-l border-stone-200/70 bg-white/95 p-1.5 shadow-lg backdrop-blur-sm"
-    >
+  aria-label="Redes sociales de Royal Raymi"
+  className="fixed right-0 top-24 md:top-1/2 z-30 flex md:-translate-y-1/2 flex-col gap-1 rounded-l-xl border-y border-l border-stone-200/70 bg-white/95 p-1 sm:p-1.5 shadow-lg backdrop-blur-sm scale-90 sm:scale-100 origin-right"
+>
       {SOCIAL_LINKS.map((social) => (
         <a
           key={social.name}

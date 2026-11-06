@@ -1,115 +1,272 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useEffect, useRef, useState } from "react";
+import type { TouchEvent } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
-import banner_café_de_calidd from '../assets/banners/café_de_calidad.webp';
-import banner_chocotejas_premium from '../assets/banners/chocotejas_premium.webp';
-import banner_todo_un_mundo from '../assets/banners/todo_un_mundo.webp';
+// Vite + React: conservar estas rutas relativas al componente.
+import bannerCafe from "../assets/banners/cafe_de_calidad.webp";
+import bannerCafeMobile from "../assets/banners/cafe_de_calidad_mundial_mobile.webp";
+import bannerChocotejas from "../assets/banners/chocotejas_premium.webp";
+import bannerChocotejasMobile from "../assets/banners/chocotejas_premium_mobile.webp";
+import bannerRoyalRaymi from "../assets/banners/royal_raymi_banner.webp";
+import bannerRoyalRaymiMobile from "../assets/banners/royal_raymi_mobile.webp";
+import bannerVariedad from "../assets/banners/todo_un_mundo.webp";
+import bannerVariedadMobile from "../assets/banners/todo_un_mundo_mobile.webp";
 
-interface BannerSlide {
-  id: string;
-  image: string;
+const AUTOPLAY_MS = 6500;
+
+type HeroBanner = {
+  desktop: string;
+  mobile: string;
   alt: string;
-}
+  eyebrow: string;
+  title: string;
+  description: string;
+  contrast: "dark" | "light";
+};
 
-const BANNERS: BannerSlide[] = [
+const BANNERS: HeroBanner[] = [
   {
-    id: 'café_de_calidad',
-    image: banner_café_de_calidd,
-    alt: 'Café de Calidad Royal Raymi',
+    desktop: bannerCafe,
+    mobile: bannerCafeMobile,
+    alt: "Café Royal Raymi: tueste francés y café Geisha de Ayacucho",
+    eyebrow: "Café de",
+    title: "CALIDAD MUNDIAL",
+    description: "Aromas excepcionales y café de especialidad cultivado en el VRAEM.",
+    contrast: "dark",
   },
   {
-    id: 'chocotejas_premium',
-    image: banner_chocotejas_premium,
-    alt: 'Chocotejas Premium Royal Raymi',
+    desktop: bannerChocotejas,
+    mobile: bannerChocotejasMobile,
+    alt: "Chocotejas Royal Raymi con cacao premium y rellenos variados",
+    eyebrow: "Una exquisita",
+    title: "SELECCIÓN DE CHOCOTEJAS",
+    description: "Cacao premium, manjar blanco, frutas confitadas y pecanas tostadas.",
+    contrast: "dark",
   },
   {
-    id: 'todo_un_mundo',
-    image: banner_todo_un_mundo,
-    alt: 'todo un mundo Royal Raymi',
+    desktop: bannerRoyalRaymi,
+    mobile: bannerRoyalRaymiMobile,
+    alt: "Origen del café y cacao Royal Raymi en el VRAEM",
+    eyebrow: "Royal Raymi",
+    title: "DEL VRAEM AL MUNDO",
+    description: "Cacao fino de aroma y café que celebran nuestras raíces ayacuchanas.",
+    contrast: "light",
+  },
+  {
+    desktop: bannerVariedad,
+    mobile: bannerVariedadMobile,
+    alt: "Variedad de chocolates rellenos Royal Raymi",
+    eyebrow: "Todo un mundo",
+    title: "DE VARIEDAD Y SABOR",
+    description: "Sabores memorables elaborados con el mejor cacao de nuestra tierra.",
+    contrast: "dark",
   },
 ];
 
-export const AvelinaHero: React.FC = () => {
+export function AvelinaHero() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [hoverPaused, setHoverPaused] = useState(false);
+  const [focusPaused, setFocusPaused] = useState(false);
+  const [hiddenPaused, setHiddenPaused] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const touchStartX = useRef<number | null>(null);
 
-  const prevSlide = useCallback(() => {
-    setCurrentIndex((prev) => (prev === 0 ? BANNERS.length - 1 : prev - 1));
-  }, []);
+  const isPaused = hoverPaused || focusPaused || hiddenPaused || prefersReducedMotion;
+  const showNext = () => setCurrentIndex((current) => (current + 1) % BANNERS.length);
+  const showPrevious = () =>
+    setCurrentIndex((current) => (current - 1 + BANNERS.length) % BANNERS.length);
 
-  const nextSlide = useCallback(() => {
-    setCurrentIndex((prev) => (prev === BANNERS.length - 1 ? 0 : prev + 1));
-  }, []);
-
-  // Autoplay continuo cada 5 segundos
   useEffect(() => {
-    const timer = setInterval(() => {
-      nextSlide();
-    }, 5000);
-    return () => clearInterval(timer);
-  }, [nextSlide]);
+    const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const syncPreference = () => setPrefersReducedMotion(preference.matches);
+    syncPreference();
+    preference.addEventListener("change", syncPreference);
+    return () => preference.removeEventListener("change", syncPreference);
+  }, []);
+
+  useEffect(() => {
+    const onVisibilityChange = () => setHiddenPaused(document.hidden);
+    onVisibilityChange();
+    document.addEventListener("visibilitychange", onVisibilityChange);
+    return () => document.removeEventListener("visibilitychange", onVisibilityChange);
+  }, []);
+
+  useEffect(() => {
+    if (isPaused) return;
+    const timer = window.setTimeout(() => {
+      setCurrentIndex((current) => (current + 1) % BANNERS.length);
+    }, AUTOPLAY_MS);
+    return () => window.clearTimeout(timer);
+  }, [currentIndex, isPaused]);
+
+  const handleTouchStart = (event: TouchEvent<HTMLDivElement>) => {
+    touchStartX.current = event.touches[0]?.clientX ?? null;
+  };
+
+  const handleTouchEnd = (event: TouchEvent<HTMLDivElement>) => {
+    const x = event.changedTouches[0]?.clientX;
+    if (touchStartX.current === null || x === undefined) return;
+    const movement = x - touchStartX.current;
+    touchStartX.current = null;
+    if (Math.abs(movement) < 55) return;
+    if (movement < 0) showNext();
+    else showPrevious();
+  };
 
   return (
-    <section className="relative w-full overflow-hidden select-none bg-white">
-      {/* Contenedor panorámico 2.75 / 1: coincide con la proporción real del banner para encajar de borde a borde */}
+    <section
+      aria-label="Destacados de Royal Raymi"
+      aria-roledescription="carrusel"
+      className="relative isolate w-full overflow-hidden bg-[#FAF7F2]"
+      onMouseEnter={() => setHoverPaused(true)}
+      onMouseLeave={() => setHoverPaused(false)}
+      onFocusCapture={() => setFocusPaused(true)}
+      onBlurCapture={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
+          setFocusPaused(false);
+        }
+      }}
+      onKeyDown={(event) => {
+        if (event.key === "ArrowRight") {
+          event.preventDefault();
+          showNext();
+        } else if (event.key === "ArrowLeft") {
+          event.preventDefault();
+          showPrevious();
+        }
+      }}
+    >
+      <style>{`
+        @keyframes rr-hero-progress {
+          from { transform: scaleX(0); }
+          to { transform: scaleX(1); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .rr-hero-slide { transition: none !important; transform: none !important; }
+          .rr-hero-progress { animation: none !important; }
+        }
+      `}</style>
+
       <div
-        className="relative w-full overflow-hidden"
-        style={{ aspectRatio: '2.75 / 1' }}
+        className="relative aspect-[3/4] w-full md:aspect-[1932/814]"
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
       >
-        <div
-          className="flex w-full h-full transition-transform duration-700 ease-out"
-          style={{ transform: `translateX(-${currentIndex * 100}%)` }}
-        >
-          {BANNERS.map((banner) => (
+        {BANNERS.map((banner, index) => {
+          const active = index === currentIndex;
+          const light = banner.contrast === "light";
+          return (
             <div
-              key={banner.id}
-              className="w-full h-full flex-shrink-0 relative overflow-hidden flex items-center justify-center bg-white"
+              key={banner.desktop}
+              aria-hidden={!active}
+              className={`rr-hero-slide absolute inset-0 overflow-hidden transition-[opacity,transform] duration-1000 ease-out ${
+                active
+                  ? "z-[1] scale-100 opacity-100"
+                  : "pointer-events-none z-0 scale-[1.015] opacity-0"
+              }`}
             >
-              <img
-                src={banner.image}
-                alt={banner.alt}
-                className="w-full h-full object-contain object-center"
-                loading="eager"
-              />
+              {/* <picture> descarga solo el formato adecuado al ancho de pantalla. */}
+              <picture className="block h-full w-full">
+                <source
+                  media="(min-width: 768px)"
+                  srcSet={banner.desktop}
+                  type="image/webp"
+                />
+                <img
+                  src={banner.mobile}
+                  alt={banner.alt}
+                  className="block h-full w-full object-cover md:object-contain"
+                  width={900}
+                  height={1200}
+                  loading={index === 0 ? "eager" : "lazy"}
+                  fetchPriority={index === 0 ? "high" : "auto"}
+                  decoding="async"
+                  draggable={false}
+                />
+              </picture>
+
+              {/* Texto HTML legible en móvil; el arte original se conserva en escritorio. */}
+              <div className="md:hidden">
+                <div
+                  className={`absolute inset-x-0 top-0 px-[7%] pt-[7%] ${
+                    light ? "text-[#FFFBF4]" : "text-[#4A2E2B]"
+                  }`}
+                >
+                  <p
+                    className={`font-serif text-[clamp(0.95rem,4.1vw,1.5rem)] italic tracking-wide ${
+                      light ? "text-[#EAD6AA]" : "text-[#BD3027]"
+                    }`}
+                  >
+                    {banner.eyebrow}
+                  </p>
+                  <h2 className="mt-1 max-w-[94%] font-serif text-[clamp(1.35rem,6.2vw,2.75rem)] leading-[1.04] tracking-[-0.035em]">
+                    {banner.title}
+                  </h2>
+                  <p
+                    className={`mt-2 max-w-[85%] text-[clamp(0.65rem,2.8vw,0.98rem)] leading-[1.45] ${
+                      light ? "text-white/85" : "text-[#5E4439]"
+                    }`}
+                  >
+                    {banner.description}
+                  </p>
+                </div>
+              </div>
             </div>
-          ))}
+          );
+        })}
+
+        <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-between px-3 md:px-6">
+          <button
+            type="button"
+            onClick={showPrevious}
+            aria-label="Ver banner anterior"
+            className="pointer-events-auto flex h-9 w-9 items-center justify-center rounded-full border border-white/65 bg-white/75 text-[#3B241C] shadow-md backdrop-blur-md transition hover:scale-105 hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B58A52] sm:h-11 sm:w-11"
+          >
+            <ChevronLeft aria-hidden="true" className="h-5 w-5" strokeWidth={1.7} />
+          </button>
+          <button
+            type="button"
+            onClick={showNext}
+            aria-label="Ver banner siguiente"
+            className="pointer-events-auto flex h-9 w-9 items-center justify-center rounded-full border border-white/65 bg-white/75 text-[#3B241C] shadow-md backdrop-blur-md transition hover:scale-105 hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B58A52] sm:h-11 sm:w-11"
+          >
+            <ChevronRight aria-hidden="true" className="h-5 w-5" strokeWidth={1.7} />
+          </button>
         </div>
 
-        {/* Flecha Izquierda (compacta en móvil para no tapar la tipografía) */}
-        <button
-          onClick={prevSlide}
-          aria-label="Anterior diapositiva"
-          className="absolute left-1.5 sm:left-4 top-1/2 -translate-y-1/2 z-20 flex h-7 w-7 sm:h-10 sm:w-10 items-center justify-center rounded-full bg-black/25 sm:bg-black/35 text-white backdrop-blur-sm transition-all hover:bg-black/55 active:scale-95"
-        >
-          <ChevronLeft className="h-3.5 w-3.5 sm:h-5 sm:w-5" />
-        </button>
-
-        {/* Flecha Derecha (compacta en móvil para no tapar la caja ni la mano) */}
-        <button
-          onClick={nextSlide}
-          aria-label="Siguiente diapositiva"
-          className="absolute right-1.5 sm:right-4 top-1/2 -translate-y-1/2 z-20 flex h-7 w-7 sm:h-10 sm:w-10 items-center justify-center rounded-full bg-black/25 sm:bg-black/35 text-white backdrop-blur-sm transition-all hover:bg-black/55 active:scale-95"
-        >
-          <ChevronRight className="h-3.5 w-3.5 sm:h-5 sm:w-5" />
-        </button>
-
-        {/* Puntos de navegación inferiores */}
-        <div className="absolute bottom-2 sm:bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1.5 sm:gap-2 px-2.5 py-0.5 sm:py-1 rounded-full bg-black/25 backdrop-blur-sm">
-          {BANNERS.map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => setCurrentIndex(idx)}
-              aria-label={`Ir a la diapositiva ${idx + 1}`}
-              className={`h-1.5 sm:h-2 transition-all duration-300 rounded-full ${
-                currentIndex === idx
-                  ? 'w-4 sm:w-6 bg-white shadow-sm'
-                  : 'w-1.5 sm:w-2 bg-white/50 hover:bg-white/80'
-              }`}
-            />
-          ))}
+        <div className="pointer-events-none absolute inset-x-0 bottom-4 z-10 flex items-center justify-center sm:bottom-5">
+          <div className="pointer-events-auto flex items-center gap-2 rounded-full border border-white/50 bg-white/80 px-3 py-2 shadow-sm backdrop-blur-md">
+            {BANNERS.map((banner, index) => {
+              const active = currentIndex === index;
+              return (
+                <button
+                  key={banner.desktop}
+                  type="button"
+                  onClick={() => setCurrentIndex(index)}
+                  aria-label={`Ir al banner ${index + 1} de ${BANNERS.length}`}
+                  aria-current={active ? "true" : undefined}
+                  className={`relative h-2.5 overflow-hidden rounded-full transition-[width,background-color] duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B58A52] ${
+                    active ? "w-9 bg-[#3B241C]/20" : "w-2.5 bg-[#3B241C]/35 hover:bg-[#3B241C]/65"
+                  }`}
+                >
+                  {active && (
+                    <span
+                      key={`progress-${currentIndex}`}
+                      className="rr-hero-progress absolute inset-0 origin-left rounded-full bg-[#8B5A36]"
+                      style={{
+                        animation: `rr-hero-progress ${AUTOPLAY_MS}ms linear forwards`,
+                        animationPlayState: isPaused ? "paused" : "running",
+                      }}
+                    />
+                  )}
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
     </section>
   );
-};
+}
 
 export default AvelinaHero;

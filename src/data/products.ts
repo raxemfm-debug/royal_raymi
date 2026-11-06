@@ -1,763 +1,1044 @@
-import type { ProductItem } from "../types";
-export type { ProductItem };
+export interface Product {
+
+  id: string;
+
+  name: string;
+
+  category: string;
+
+  categoryKey: 'chocolates_tradicional' | 'chocolates_sabores' | 'grageados' | 'cafe' | 'derivados' | 'licores' | 'bombones';
+
+  description: string;
+
+  imageUrl: string;
+
+  isPopular?: boolean;
+  price?: number;
+  stock?: number;
+  sku?: string;
+  weight?: string;
+  slug?: string;
+  images?: string[];
+  available?: boolean;
+
+}
+
+
 
 export const PRODUCT_CATEGORIES = [
-  "Todos",
-  "Chocolates",
-  "Café",
-  "Grageas",
-  "Bombones",
-  "Polvos y Pastas",
-  "Licores",
-  "Especialidades"
-] as const;
 
-export const ROYAL_RAYMI_PRODUCTS: ProductItem[] = [
-  // --- BOMBONES Y CHOCOTEJAS ---
-  {
-    id: "90da0972-747d-5e26-89ba-08b5be9fca0d",
-    slug: "bombones-con-rellenos-de-jalea",
-    name: "Bombones con rellenos de jalea",
-    category: "Bombones",
-    cacao_percent: 70,
-    format: "Caja surtida",
-    origin: "VRAEM, Ayacucho",
-    description: "Cacao 50% - 70%: Bombones rellenos con frutos secos, deshidratados y cereales: café, pecanas, kiwicha, almendras, ajonjolí y quinua.",
-    imageUrl: "/assets/products/bombones-con-rellenos-de-jalea.jpg",
-    featured: true
-  },
-  {
-    id: "ba885cbb-852e-5e1b-99ff-e624f0c7eb6a",
-    slug: "bonomix-pack-x-8",
-    name: "Bonomix pack x 8",
-    category: "Bombones",
-    cacao_percent: 70,
-    format: "Pack x 8",
-    origin: "VRAEM, Ayacucho",
-    description: "Chocolate 70%: Deliciosos chocolates en forma de corazón, con jalea de aguaymanto, sauco, maracuyá y limón.",
-    imageUrl: "/assets/products/bonomix-pack-x-8.jpg",
-    featured: false
-  },
-  {
-    id: "1c28c8bc-a88a-54e6-81df-96150fe1f148",
-    slug: "chocotejas-caja-x-10",
-    name: "Chocotejas caja x 10",
-    category: "Bombones",
-    cacao_percent: 60,
-    format: "Caja x 10",
-    origin: "VRAEM, Ayacucho",
-    description: "Cacao 70%: Rellenas de manjar blanco, frutas confitadas, pecanas tostadas",
-    imageUrl: "/assets/products/chocotejas-caja-x-10.jpg",
-    featured: true
-  },
+  { id: 'todos', name: 'Todos' },
 
-  // --- POLVOS Y PASTAS ---
-  {
-    id: "35e1dff3-0f49-5ea2-a722-e1d51a92e1ce",
-    slug: "cacao-en-polvo-150-g",
-    name: "Cacao en polvo 150 g",
-    category: "Polvos y Pastas",
-    cacao_percent: 100,
-    format: "150 g",
-    origin: "VRAEM, Ayacucho",
-    description: "(100% cacao): Polvo de cacao natural, consumo para desayunos, batidos, repostería y bebidas calientes.",
-    imageUrl: "/assets/products/cacao-en-polvo-150-g.jpg",
-    featured: false
-  },
-  {
-    id: "277e9262-b9e7-573e-b83c-f4da129a28c3",
-    slug: "cacao-en-polvo-250-g",
-    name: "Cacao en polvo 250 g",
-    category: "Polvos y Pastas",
-    cacao_percent: 100,
-    format: "250 g",
-    origin: "VRAEM, Ayacucho",
-    description: "100% cacao: Polvo de cacao natural, sin aditivos ni químicos. Consumo: para desayunos, batidos, repostería y bebidas calientes.",
-    imageUrl: "/assets/products/cacao-en-polvo-250-g.jpg",
-    featured: true
-  },
-  {
-    id: "348c4149-ce8c-529a-9e1e-28cf08129da4",
-    slug: "pasta-de-cacao-organico-500-g",
-    name: "Pasta de cacao orgánico 500 g",
-    category: "Polvos y Pastas",
-    cacao_percent: 100,
-    format: "500 g",
-    origin: "VRAEM, Ayacucho",
-    description: "Pasta pura de cacao orgánico obtenida por molienda directa de granos nativos.",
-    imageUrl: "/assets/products/pasta-de-cacao-organico-500-g.jpg",
-    featured: false
-  },
-  {
-    id: "680c85c2-f155-520e-84b3-3a7cbef90fe8",
-    slug: "pasta-de-cacao-organico-1-kg",
-    name: "Pasta de cacao orgánico 1 kg",
-    category: "Polvos y Pastas",
-    cacao_percent: 100,
-    format: "1 kg",
-    origin: "VRAEM, Ayacucho",
-    description: "Bloque de 1 kg de pasta pura de cacao del VRAEM para maestros chocolateros.",
-    imageUrl: "/assets/products/pasta-de-cacao-organico-1-kg.jpg",
-    featured: false
-  },
-  {
-    id: "2bcfe5ca-f3b1-5919-8664-9be7b719bc42",
-    slug: "pasta-pura-de-cacao-ecologica-life-90-g",
-    name: "Pasta pura de cacao ecológica Life 90 g",
-    category: "Polvos y Pastas",
-    cacao_percent: 100,
-    format: "90 g",
-    origin: "VRAEM, Ayacucho",
-    description: "Pasta pura de 100% cacao, ecológica y sin aditivos. Consumo: Para elaborar chocolatada, repostería, desayunos con avena y elaboración de bebibles energéticos.",
-    imageUrl: "/assets/products/pasta-pura-de-cacao-ecologica-life-90-g.jpg",
-    featured: true
-  },
+  { id: 'chocolates_tradicional', name: 'Chocolates Tradicional' },
 
-  // --- CAFÉ DE ESPECIALIDAD Y ALTURA ---
-  {
-    id: "2fe8a946-b605-55ce-a64b-a7eb2db19d70",
-    slug: "cafe-de-especialidad-edición-limitada",
-    name: "Café de especialidad edición limitada",
-    category: "Café",
-    cacao_percent: undefined,
-    format: "Edición Limitada",
-    origin: "VRAEM / Selva Alta",
-    description: "Café de especialidad con 85 pts SCA. Fragancia: Dulce y floral, jazmín, cítricos ydulzor limpio. Cuerpo: Cremoso y balanceado. Acidez: Cítrica y elegante. Retrogusto: Prolongado y dulce",
-    imageUrl: "/assets/products/cafe-de-especialidad-edición-limitada.webp",
-    featured: true
-  },
-  {
-    id: "92beeb2d-fb58-5cf2-8c11-9ea7a6c0b3fa",
-    slug: "cafe-tueste-americano-250-g",
-    name: "Café tueste americano 250 g",
-    category: "Café",
-    cacao_percent: undefined,
-    format: "250 g",
-    origin: "VRAEM / Selva Alta",
-    description: "Café de especialidad con 85 Pts SCA. Altitud:1600 a 1800 msnmTueste: Medio - americano. Molienda: Media gruesa. Presentación: 250 g",
-    imageUrl: "/assets/products/cafe-tueste-americano-250-g.jpg",
-    featured: false
-  },
-  {
-    id: "0eb97415-7eff-5028-b00d-773db46484cd",
-    slug: "cafe-tueste-frances-500-g",
-    name: "Café tueste francés 500 g",
-    category: "Café",
-    cacao_percent: undefined,
-    format: "500 g",
-    origin: "VRAEM / Selva Alta",
-    description: "Café orgánico de especialidad con 85 pts SCA. Altitud:1600 a 1800 msnm. Tueste: Medio oscuro - francés. Molienda: Media gruesa",
-    imageUrl: "/assets/products/cafe-tueste-frances-500-g.jpg",
-    featured: true
-  },
-  {
-    id: "28e08d6c-6744-5969-b541-b8455fa98c76",
-    slug: "cafe-tueste-frances-1-kg",
-    name: "Café tueste francés 1 kg",
-    category: "Café",
-    cacao_percent: undefined,
-    format: "1 kg",
-    origin: "VRAEM / Selva Alta",
-    description: "Formato de 1 kg con granos arábica seleccionados bajo tueste francés intenso.",
-    imageUrl: "/assets/products/cafe-tueste-frances-1-kg.jpg",
-    featured: false
-  },
-  {
-    id: "f37476ae-e435-5020-a6ad-c6517173b224",
-    slug: "peru-select-coffee-100-g",
-    name: "Peru Select Coffee 100 g",
-    category: "Café",
-    cacao_percent: undefined,
-    format: "100 g",
-    origin: "VRAEM / Selva Alta",
-    description: "Cosecha selecta de café andino-amazónico en presentación compacta.",
-    imageUrl: "/assets/products/peru-select-coffee-100-g.jpg",
-    featured: false
-  },
-  {
-    id: "ad68ff21-fe88-517b-8ff8-e4b2d354b6ce",
-    slug: "peru-select-coffee-250-g",
-    name: "Peru Select Coffee 250 g",
-    category: "Café",
-    cacao_percent: undefined,
-    format: "250 g",
-    origin: "VRAEM / Selva Alta",
-    description: "Café de especialidad en grano entero, de 250 g con 85 pts SCA. Altitud:1600 a 1800 msnm. Tueste: Francés. Molienda: Media gruesa. Presentación: 250g",
+  { id: 'chocolates_sabores', name: 'Chocolates de Sabores' },
 
-    imageUrl: "/assets/products/peru-select-coffee-250-g.jpg",
-    featured: true
-  },
-  {
-    id: "bc8ee99b-d249-5197-8763-7c5ef44c7980",
-    slug: "peru-select-coffee-grano-entero-1-kg",
-    name: "Peru Select Coffee grano entero 1 kg",
-    category: "Café",
-    cacao_percent: undefined,
-    format: "1 kg",
-    origin: "VRAEM / Selva Alta",
-    description: "Café de especialidad con 85 pts SCA. Altitud:1600 a 1800 msnm. Tueste: Francés. Molienda: Media gruesa. Presentación: 1 kg",
-    imageUrl: "/assets/products/peru-select-coffee-grano-entero-1-kg.jpg",
-    featured: false
-  },
+  { id: 'grageados', name: 'Grageados' },
 
-  // --- CHOCOLATES TABLETAS Y DE AUTOR ---
-  {
-    id: "b80eb8a5-c6a4-566c-ac97-7b52237da00c",
-    slug: "chocoandino-220-g",
-    name: "Chocoandino 220 g",
-    category: "Chocolates",
-    cacao_percent: undefined,
-    format: "220 g",
-    origin: "VRAEM, Ayacucho",
-    description: "Choco mix andino, Chocolate 60% Cacao controzos de naranja Deshidratada, quinua, cañihua y kiwicha",
-    imageUrl: "/assets/products/chocoandino-220-g.jpg",
-    featured: false
-  },
-  {
-    id: "a1316422-bcd2-5cdc-854c-21439cb88292",
-    slug: "choco-berries",
-    name: "Choco berries",
-    category: "Chocolates",
-    cacao_percent: 70,
-    format: "Tableta 100g",
-    origin: "VRAEM, Ayacucho",
-    description: "Con arándanos seleccionados, aguaymanto y pasas rubias en cobertura bitter 70%.",
-    imageUrl: "/assets/products/choco-berries.jpg",
-    featured: true
-  },
-  {
-    id: "b1aaa571-4693-584b-ba2f-cc87b049d305",
-    slug: "chocodark",
-    name: "Chocodark",
-    category: "Chocolates",
-    cacao_percent: 70,
-    format: "Tableta 100g",
-    origin: "VRAEM, Ayacucho",
-    description: "Cacao fino bitter al 70% con perfil balanceado y notas tostadas nobles.",
-    imageUrl: "/assets/products/chocodark.jpg",
-    featured: true
-  },
-  {
-    id: "c0ca1016-a134-5cc0-bda0-164de86ea0e1",
-    slug: "chocolate-capucino",
-    name: "Chocolate capuccino",
-    category: "Chocolates",
-    cacao_percent: 45,
-    format: "Tableta 100g",
-    origin: "VRAEM, Ayacucho",
-    description: "Armonía entre chocolate con leche y café arábica tostado del valle.",
-    imageUrl: "/assets/products/chocolate-capuccino.webp",
-  },
-  {
-    id: "2686fefa-4bd3-51bb-819a-961fb5a173f7",
-    slug: "chocolate-con-almendra",
-    name: "Chocolate con almendra",
-    category: "Chocolates",
-    cacao_percent: 50,
-    format: "Tableta 100g",
-    origin: "VRAEM, Ayacucho",
-    description: "Almendras tostadas enteras integradas en chocolate artesanal al 50%.",
-    imageUrl: "/assets/products/chocolate-con-almendra.jpg",
-    featured: false
-  },
-  {
-    id: "c88cd5d6-3ada-5660-a6e9-30577fea9522",
-    slug: "chocolate-con-arandanos",
-    name: "Chocolate con arándanos",
-    category: "Chocolates",
-    cacao_percent: 50,
-    format: "Tableta 100g",
-    origin: "VRAEM, Ayacucho",
-    description: "Fusión frutal de cacao nativo y trozos de arándanos deshidratados.",
-    imageUrl: "/assets/products/chocolate-con-arandanos.jpg",
-    featured: false
-  },
-  {
-    id: "939e2029-7b7a-5e39-b54f-b834b40e60f5",
-    slug: "chocolate-con-cafe",
-    name: "Chocolate con café",
-    category: "Chocolates",
-    cacao_percent: 50,
-    format: "Tableta 100g",
-    origin: "VRAEM, Ayacucho",
-    description: "Unión de cacao y café de especialidad cosechados en el mismo origen.",
-    imageUrl: "/assets/products/chocolate-con-cafe.jpg",
-    featured: false
-  },
-  {
-    id: "6b83be70-4e4e-57ed-9dbd-6c8959015875",
-    slug: "chocolate-con-coco",
-    name: "Chocolate con coco",
-    category: "Chocolates",
-    cacao_percent: 50,
-    format: "Tableta 100g",
-    origin: "VRAEM, Ayacucho",
-    description: "Trozos de coco rallado deshidratado bañados en chocolate fino al 50%.",
-    imageUrl: "/assets/products/chocolate-con-coco.jpg",
-    featured: false
-  },
-  {
-    id: "11405220-d2c0-5e60-9f9b-f2df7adc0e92",
-    slug: "chocolate-con-kiwicha",
-    name: "Chocolate con kiwicha",
-    category: "Chocolates",
-    cacao_percent: 50,
-    format: "Tableta 100g",
-    origin: "VRAEM, Ayacucho",
-    description: "Crocante kiwicha andina expandida sobre base de cacao fino de aroma.",
-    imageUrl: "/assets/products/chocolate-con-kiwicha.jpg",
-    featured: true
-  },
-  {
-    id: "0987d197-205a-5198-a6bb-f8a083a8b4ae",
-    slug: "chocolate-con-naranja",
-    name: "Chocolate con naranja",
-    category: "Chocolates",
-    cacao_percent: 60,
-    format: "Tableta 100g",
-    origin: "VRAEM, Ayacucho",
-    description: "Con trozos de naranja deshidratada al sol que aportan frescura cítrica.",
-    imageUrl: "/assets/products/chocolate-con-naranja.jpg",
-    featured: true
-  },
-  {
-    id: "1432f83a-0615-5df9-bb21-3e12231c1227",
-    slug: "chocolate-con-pecana",
-    name: "Chocolate con pecana",
-    category: "Chocolates",
-    cacao_percent: 50,
-    format: "Tableta 100g",
-    origin: "VRAEM, Ayacucho",
-    description: "Pecanas seleccionadas tostadas suavemente para complementar el cacao.",
-    imageUrl: "/assets/products/chocolate-con-pecana.jpg",
-    featured: false
-  },
-  {
-    id: "b68ee842-5825-5773-a2f2-8907723982f3",
-    slug: "chocolate-extra-dark",
-    name: "Chocolate extra dark",
-    category: "Chocolates",
-    cacao_percent: 85,
-    format: "Tableta 100g",
-    origin: "VRAEM, Ayacucho",
-    description: "Pureza botánica al 85% de cacao con notas amargas elegantes y cuerpo profundo.",
-    imageUrl: "/assets/products/chocolate-extra-dark.jpg",
-    featured: true
-  },
-  {
-    id: "034e4029-4d24-5d5d-9ae5-25785bbd195c",
-    slug: "chocolate-huamanguino-300-g",
-    name: "Chocolate huamanguino 300 g",
-    category: "Chocolates",
-    cacao_percent: undefined,
-    format: "300 g",
-    origin: "VRAEM, Ayacucho",
-    description: "Receta tradicional de Huamanga para chocolate de taza aromático y reconfortante.",
-    imageUrl: "/assets/products/chocolate-huamanguino-300-g.jpg",
-    featured: false
-  },
-  {
-    id: "1ad23595-5cb7-5e60-a7d0-1cba1ff9051d",
-    slug: "chocolate-para-taza-refinado-90-g",
-    name: "Chocolate para taza refinado 90 g",
-    category: "Chocolates",
-    cacao_percent: 100,
-    format: "90 g",
-    origin: "VRAEM, Ayacucho",
-    description: "Pasta refinada para preparar el tradicional chocolate de taza andino.",
-    imageUrl: "/assets/products/chocolate-para-taza-refinado-90-g.jpg",
-    featured: true
-  },
-  {
-    id: "5e341141-3160-5dc8-a70d-bba7f557e78a",
-    slug: "chocolate-reforzado-con-garbanzo",
-    name: "Chocolate reforzado con garbanzo",
-    category: "Chocolates",
-    cacao_percent: 70,
-    format: "Tableta 100g",
-    origin: "VRAEM, Ayacucho",
-    description: "Nutritiva formulación con harina de garbanzo tostado y cacao al 70%.",
-    imageUrl: "/assets/products/chocolate-reforzado-con-garbanzo.jpg",
-    featured: false
-  },
-  {
-    id: "a1bc2314-d417-5c25-b190-91f78bfec84c",
-    slug: "chocolate-reforzado-con-kiwicha-y-estevia",
-    name: "Chocolate reforzado con kiwicha y estevia",
-    category: "Chocolates",
-    cacao_percent: 90,
-    format: "Tableta 100g",
-    origin: "VRAEM, Ayacucho",
-    description: "90% cacao nativo endulzado con estevia natural y enriquecido con kiwicha.",
-    imageUrl: "/assets/products/chocolate-reforzado-con-kiwicha-y-estevia.jpg",
-    featured: false
-  },
-  {
-    id: "90b12b9c-2288-5143-a2d3-738e218bbbff",
-    slug: "chocolate-reforzado-con-maca",
-    name: "Chocolate reforzado con maca",
-    category: "Chocolates",
-    cacao_percent: 70,
-    format: "Tableta 100g",
-    origin: "VRAEM, Ayacucho",
-    description: "Fusión energética de cacao fino y maca andina seleccionada al 70%.",
-    imageUrl: "/assets/products/chocolate-reforzado-con-maca.webp",
-    featured: false
-  },
-  {
-    id: "bed63632-47b7-5bdc-9ddb-f7cd5d18a679",
-    slug: "chocomilk",
-    name: "Chocomilk",
-    category: "Chocolates",
-    cacao_percent: 50,
-    format: "Tableta 100g",
-    origin: "VRAEM, Ayacucho",
-    description: "Textura sedosa y dulzor equilibrado con leche entera y cacao ayacuchano.",
-    imageUrl: "/assets/products/chocomilk.webp",
-    featured: false
-  },
-  {
-    id: "9ac68ab7-363e-5909-afe5-663d5be063c0",
-    slug: "choco-mix-andino",
-    name: "Choco mix andino",
-    category: "Chocolates",
-    cacao_percent: 60,
-    format: "Tableta 100g",
-    origin: "VRAEM, Ayacucho",
-    description: "Con granos andinos ancestrales: quinua, cañihua y kiwicha crocante.",
-    imageUrl: "/assets/products/choco-mix-andino.jpg",
-    featured: true
-  },
-  {
-    id: "e31b9ba9-8cd8-5ec3-b82c-79b8973a374e",
-    slug: "choco-white",
-    name: "Choco white",
-    category: "Chocolates",
-    cacao_percent: 35,
-    format: "Tableta 100g",
-    origin: "VRAEM, Ayacucho",
-    description: "Elaborado con manteca de cacao pura prensada en frío y leche andina.",
-    imageUrl: "/assets/products/choco-white.jpg",
-    featured: false
-  },
+  { id: 'cafe', name: 'cafe' },
 
-  // --- GRAGEAS Y CONFITADOS ---
-  {
-    id: "5798e228-a400-53bc-b12a-fc2a4878a8be",
-    slug: "grageas-de-almendras-40-g",
-    name: "Grageas de almendras 40 g",
-    category: "Grageas",
-    cacao_percent: 50,
-    format: "40 g",
-    origin: "VRAEM, Ayacucho",
-    description: "Almendras tostadas cubiertas con fina capa de chocolate bitter.",
-    imageUrl: "/assets/products/grageas-de-almendras-40-g.jpg",
-    featured: false
-  },
-  {
-    id: "9a263152-73b3-577e-b6e8-ef366c8ab78b",
-    slug: "grageas-de-almendras-100-g",
-    name: "Grageas de almendras 100 g",
-    category: "Grageas",
-    cacao_percent: 50,
-    format: "100 g",
-    origin: "VRAEM, Ayacucho",
-    description: "Formato mediano de almendras crujientes bañadas en chocolate artesanal.",
-    imageUrl: "/assets/products/grageas-de-almendras-100-g.jpg",
-    featured: false
-  },
-  {
-    id: "9256ee63-393d-5197-a7eb-692b45eb8e3a",
-    slug: "grageas-de-almendras-180-g",
-    name: "Grageas de almendras 180 g",
-    category: "Grageas",
-    cacao_percent: 50,
-    format: "180 g",
-    origin: "VRAEM, Ayacucho",
-    description: "Presentación familiar de almendras cubiertas con chocolate bitter.",
-    imageUrl: "/assets/products/grageas-de-almendras-180-g.jpg",
-    featured: true
-  },
-  {
-    id: "8c7ecbe4-7227-5136-a361-9c60e5fe44d0",
-    slug: "grageas-de-arandanos-y-aguaymanto-40-g",
-    name: "Grageas de arándanos y aguaymanto 40 g",
-    category: "Grageas",
-    cacao_percent: 60,
-    format: "40 g",
-    origin: "VRAEM, Ayacucho",
-    description: "Dúo andino de frutos deshidratados cubiertos en chocolate fino.",
-    imageUrl: "/assets/products/grageas-de-arandanos-y-aguaymanto-40-g.jpg",
-    featured: false
-  },
-  {
-    id: "cb4432a6-25f3-52fe-a42e-13c56d782161",
-    slug: "grageas-de-arandanos-y-aguaymanto-100-g",
-    name: "Grageas de arándanos y aguaymanto 100 g",
-    category: "Grageas",
-    cacao_percent: 60,
-    format: "100 g",
-    origin: "VRAEM, Ayacucho",
-    description: "Equilibrio agridulce entre bayas silvestres y cobertura de cacao 60%.",
-    imageUrl: "/assets/products/grageas-de-arandanos-y-aguaymanto-100-g.jpg",
-    featured: true
-  },
-  {
-    id: "6e9f1a23-3887-578d-937d-cf5fba9d1645",
-    slug: "grageas-de-arandanos-y-aguaymanto-180-g",
-    name: "Grageas de arándanos y aguaymanto 180 g",
-    category: "Grageas",
-    cacao_percent: 60,
-    format: "180 g",
-    origin: "VRAEM, Ayacucho",
-    description: "Envase grande de arándanos y aguaymanto bañados en chocolate nativo.",
-    imageUrl: "/assets/products/grageas-de-arandanos-y-aguaymanto-180-g.jpg",
-    featured: false
-  },
-  {
-    id: "5b5463f8-8bb8-502a-9cb8-b2ef3f48a975",
-    slug: "grageas-de-cacao-100-g",
-    name: "Grageas de cacao 100 g",
-    category: "Grageas",
-    cacao_percent: 70,
-    format: "100 g",
-    origin: "VRAEM, Ayacucho",
-    description: "Granos de cacao nativo tostado cubiertos con chocolate bitter al 70%.",
-    imageUrl: "/assets/products/grageas-de-cacao-100-g.jpg",
-    featured: true
-  },
-  {
-    id: "7820be9d-4787-5707-b353-8321415df8a5",
-    slug: "grageas-de-cacao-180-g",
-    name: "Grageas de cacao 180 g",
-    category: "Grageas",
-    cacao_percent: 70,
-    format: "180 g",
-    origin: "VRAEM, Ayacucho",
-    description: "Semillas enteras de cacao fino tostadas y cubiertas para degustar.",
-    imageUrl: "/assets/products/grageas-de-cacao-180-g.jpg",
-    featured: false
-  },
-  {
-    id: "27299a9a-360c-51ff-afb5-829d10c14c51",
-    slug: "grageas-de-cafe-40-g",
-    name: "Grageas de café 40 g",
-    category: "Grageas",
-    cacao_percent: 60,
-    format: "40 g",
-    origin: "VRAEM, Ayacucho",
-    description: "Granos de café de altura tostados cubiertos en chocolate fino.",
-    imageUrl: "/assets/products/grageas-de-cafe-40-g.jpg",
-    featured: false
-  },
-  {
-    id: "20786da3-9b63-54fc-9252-0697ad4dae43",
-    slug: "grageas-de-cafe-100-g",
-    name: "Grageas de café 100 g",
-    category: "Grageas",
-    cacao_percent: 60,
-    format: "100 g",
-    origin: "VRAEM, Ayacucho",
-    description: "Explosión crocante de café arábica y chocolate al 60%.",
-    imageUrl: "/assets/products/grageas-de-cafe-100-g.jpg",
-    featured: true
-  },
-  {
-    id: "6e267d30-b3b4-5ff6-9cb9-4702ba7c0ad8",
-    slug: "grageas-de-cafe-180-g",
-    name: "Grageas de café 180 g",
-    category: "Grageas",
-    cacao_percent: 60,
-    format: "180 g",
-    origin: "VRAEM, Ayacucho",
-    description: "Frasco generoso de granos de café confitados en chocolate.",
-    imageUrl: "/assets/products/grageas-de-cafe-180-g.jpg",
-    featured: false
-  },
-  {
-    id: "29f37c35-3d84-5f50-96f3-138383f98292",
-    slug: "grageas-de-pasas-borrachas-100-g",
-    name: "Grageas de pasas borrachas 100 g",
-    category: "Grageas",
-    cacao_percent: 60,
-    format: "100 g",
-    origin: "VRAEM, Ayacucho",
-    description: "Pasas maceradas en licor artesanal y recubiertas de chocolate bitter.",
-    imageUrl: "/assets/products/grageas-de-pasas-borrachas-100-g.jpg",
-    featured: true
-  },
-  {
-    id: "444498ec-7a30-5847-a843-b26a6c22ec20",
-    slug: "grageas-empaque-negro-40-g",
-    name: "Grageas de cacao empaque negro 40 g",
-    category: "Grageas",
-    cacao_percent: 70,
-    format: "40 g",
-    origin: "VRAEM, Ayacucho",
-    description: "Edición especial de bolsillo de grageas de cacao al 70%.",
-    imageUrl: "/assets/products/grageas-empaque-negro-40-g.jpg",
-    featured: false
-  },
+  { id: 'derivados', name: 'Derivados' },
 
-  // --- LICORES Y CÓCTELES ---
-  {
-    id: "f3bb3227-d0a9-51a8-8e6d-788cf0bc51d8",
-    slug: "licor-coctel-de-cacao-500-ml",
-    name: "Licor cóctel de cacao 500 ml",
-    category: "Licores",
-    cacao_percent: undefined,
-    format: "500 ml",
-    origin: "VRAEM, Ayacucho",
-    description: "Macerado artesanal elaborado con destilado y pasta pura de cacao nativo.",
-    imageUrl: "/assets/products/licor-coctel-de-cacao-cafe-500-ml.webp",
-    featured: true
-  },
-  {
-    id: "cf1516e5-42a1-5c3b-be54-944ffcb9ea2c",
-    slug: "licor de cafe-500-ml",
-    name: "Licor de café 500 ml",
-    category: "Licores",
-    cacao_percent: undefined,
-    format: "500 ml",
-    origin: "VRAEM, Ayacucho",
-    description: "Licor fino macerado con café arábica de altura y notas aromáticas dulces.",
-    imageUrl: "/assets/products/licor-de-cafe-500-ml.webp",
-    featured: true
-  },
+  { id: 'licores', name: 'Licores' },
 
-  // --- ESPECIALIDADES Y UNTABLES ---
-  {
-    id: "d83ffbe1-bc39-58d3-9bc6-32d596aa4172",
-    slug: "mantequilla-chocomani",
-    name: "Mantequilla chocomani",
-    category: "Especialidades",
-    cacao_percent: 40,
-    format: "Frasco untable",
-    origin: "VRAEM, Ayacucho",
-    description: "Crema untable de maní tostado y chocolate ayacuchano sin grasas añadidas.",
-    imageUrl: "/assets/products/mantequilla-chocomani.webp",
-    featured: true
-  },
-  {
-    id: "3e5a7b68-e3f8-586b-bfa8-c57be6686161",
-    slug: "mantequilla-de-mani",
-    name: "Mantequilla de maní",
-    category: "Especialidades",
-    cacao_percent: undefined,
-    format: "Frasco untable",
-    origin: "VRAEM, Ayacucho",
-    description: "100% maní tostado y molido artesanalmente con textura cremosa natural.",
-    imageUrl: "/assets/products/mantequilla-de-mani.webp",
-    featured: false
-  },
-  {
-    id: "442436f5-045e-5ce8-89f4-3453a9926868",
-    slug: "obelisco-pampa-de-la-quinua-180-g",
-    name: "Obelisco Pampa de la Quinua 180 g",
-    category: "Especialidades",
-    cacao_percent: 50,
-    format: "180 g",
-    origin: "VRAEM, Ayacucho",
-    description: "Escultura de chocolate que rinde homenaje al Santuario Histórico de la Pampa de Ayacucho.",
-    imageUrl: "/assets/products/obelisco-pampa-de-la-quinua-180-g.webp",
-    featured: true
-  },
-  {
-    id: "e57b9875-1014-5d5d-9b57-61c0c5147575",
-    slug: "obelisco-pampa-de-la-quinua-escultura",
-    name: "Obelisco Pampa de la Quinua escultura",
-    category: "Especialidades",
-    cacao_percent: 60,
-    format: "Escultura Especial",
-    origin: "VRAEM, Ayacucho",
-    description: "Edición conmemorativa artística moldeada en fino chocolate nativo.",
-    imageUrl: "/assets/products/obelisco-pampa-de-la-quinua-escultura.webp",
-    featured: false
-  },
+  { id: 'bombones', name: 'Bombones' },
 
-  // --- LÍNEA PRODIGIO ---
-  {
-    id: "1fe80b91-a1e6-59b6-80db-f975765796a5",
-    slug: "prodigio-bitter-45-g",
-    name: "Prodigio bitter 45 g",
-    category: "Chocolates",
-    cacao_percent: 70,
-    format: "45 g",
-    origin: "VRAEM, Ayacucho",
-    description: "Barra individual de cacao bitter para recarga de energía en el día.",
-    imageUrl: "/assets/products/prodigio-bitter-45-g.webp",
-    featured: false
-  },
-  {
-    id: "d9e801b6-ba92-5636-8208-16e6328373b5",
-    slug: "prodigio-bitter-con-cafe-45-g",
-    name: "Prodigio bitter con café 45 g",
-    category: "Chocolates",
-    cacao_percent: 65,
-    format: "45 g",
-    origin: "VRAEM, Ayacucho",
-    description: "Barra personal que combina chocolate bitter con café tostado molido fino.",
-    imageUrl: "/assets/products/prodigio-bitter-con-cafe-45-g.webp",
-    featured: false
-  },
-  {
-    id: "3784766b-6d81-5e9d-92cd-806d6372e4c6",
-    slug: "prodigio-coctel-de-frutos",
-    name: "Prodigio cóctel de frutos",
-    category: "Chocolates",
-    cacao_percent: 40,
-    format: "Tableta 40g",
-    origin: "VRAEM, Ayacucho",
-    description: "Chocolate suave con mezcla de frutos secos y pasas seleccionadas.",
-    imageUrl: "/assets/products/prodigio-coctel-de-frutos.webp",
-    featured: false
-  },
-  {
-    id: "0501bbb4-a574-570a-86f8-77125ac6e8ab",
-    slug: "prodigio-con-leche-20-g",
-    name: "Prodigio con leche 20 g",
-    category: "Chocolates",
-    cacao_percent: 40,
-    format: "20 g",
-    origin: "VRAEM, Ayacucho",
-    description: "Mini tableta cremosa con leche andina para degustación ligera.",
-    imageUrl: "/assets/products/prodigio-con-leche-20-g.webp",
-    featured: false
-  },
-  {
-    id: "a7c9f81e-4364-53d9-8701-b57526acb9d8",
-    slug: "prodigio-con-kiwicha-20-g",
-    name: "Prodigio leche y kiwicha 20 g",
-    category: "Chocolates",
-    cacao_percent: 40,
-    format: "20 g",
-    origin: "VRAEM, Ayacucho",
-    description: "Mini tableta de chocolate con leche y kiwicha crocante.",
-    imageUrl: "/assets/products/prodigio-leche-y-kiwicha-20-g.webp",
-    featured: false
-  },
-  {
-    id: "5423f5b7-789a-58b1-a67b-1c5c0295da95",
-    slug: "prodigio-con-leche-y-mani-20-g",
-    name: "Prodigio con leche y maní 20 g",
-    category: "Chocolates",
-    cacao_percent: 40,
-    format: "20 g",
-    origin: "VRAEM, Ayacucho",
-    description: "Mini tableta con trozos de maní tostado y chocolate con leche.",
-    imageUrl: "/assets/products/prodigio-leche-y-mani-20-g.webp",
-    featured: false
-  },
-  {
-    id: "455da9af-8c21-578f-93ae-961374d9ec40",
-    slug: "prodigio-pack-surtido-x-24",
-    name: "Prodigio pack surtido x 24",
-    category: "Chocolates",
-    cacao_percent: 40,
-    format: "Pack x 24",
-    origin: "VRAEM, Ayacucho",
-    description: "Caja exhibidora surtida con 24 unidades de las distintas variedades de la línea Prodigio.",
-    imageUrl: "/assets/products/prodigio-pack-surtido-x-24.webp",
-    featured: true
-  }
 ];
+
+
+
+export const PRODUCTS: Product[] = [
+
+  // ========================================================
+  // 1. CHOCOLATES TRADICIONAL (palabra "TRADICIONAL")
+  // ========================================================
+  {
+
+    id: 'chocolate-huamanguino-tradicional',
+
+    name: 'Chocolate Huamanguino Tradicional',
+
+    category: 'Chocolates Tradicional',
+
+    categoryKey: 'chocolates_tradicional',
+
+    description: 'Auténtico chocolate tradicional huamanguino elaborado con cacao ayacuchano selecto.',
+
+    imageUrl: '/assets/products/chocolate_huamanguino_tradicional.webp',
+
+    isPopular: true,
+
+  },
+
+  {
+
+    id: 'chocolate-tradicional-escultura-pampa-quinua',
+
+    name: 'Chocolate Tradicional Escultura Pampa de la Quinua',
+
+    category: 'Chocolates Tradicional',
+
+    categoryKey: 'chocolates_tradicional',
+
+    description: 'Edición artística en chocolate conmemorativa del Obelisco de la Pampa de la Quinua.',
+
+    imageUrl: '/assets/products/chocolate_tradicional_escultura_pampa_de_la_quinua.webp',
+
+  },
+
+  {
+
+    id: 'chocolate-tradicional-huamanguino-mani-ajonjoli',
+
+    name: 'Chocolate Tradicional Huamanguino con mani y Ajonjolí',
+
+    category: 'Chocolates Tradicional',
+
+    categoryKey: 'chocolates_tradicional',
+
+    description: 'Receta tradicional ayacuchana enriquecida con crocante de mani tostado y ajonjolí.',
+
+    imageUrl: '/assets/products/chocolate_tradicional_huamanguino_con_mani_y_ajonjoli.webp',
+
+  },
+
+  {
+
+    id: 'chocolate-tradicional-para-taza',
+
+    name: 'Chocolate Tradicional para Taza',
+
+    category: 'Chocolates Tradicional',
+
+    categoryKey: 'chocolates_tradicional',
+
+    description: 'Tableta clásica de pasta pura para la tradicional taza de chocolate caliente.',
+
+    imageUrl: '/assets/products/chocolate_tradicional_para_taza.webp',
+
+    isPopular: true,
+
+  },
+
+
+
+  // ========================================================
+  // 2. CHOCOLATES DE SABORES (CAJA_DE_CHOCOLATE, PRODIGIO, WITAKAO)
+  // ========================================================
+  {
+
+    id: 'caja-chocolate-70-garbanzo',
+
+    name: 'Chocolate 70% Cacao con Garbanzo',
+
+    category: 'Chocolates de Sabores',
+
+    categoryKey: 'chocolates_sabores',
+
+    description: 'Fina tableta 70% cacao infusionada con notas tostadas de garbanzo andino.',
+
+    imageUrl: '/assets/products/caja_de_chocolate_70_con_garbanzo.webp',
+
+  },
+
+  {
+
+    id: 'caja-chocolate-blanco-choco-withe-35',
+
+    name: 'Chocolate Blanco Choco Withe 35% Cacao',
+
+    category: 'Chocolates de Sabores',
+
+    categoryKey: 'chocolates_sabores',
+
+    description: 'Suave y cremosa manteca de cacao pura al 35% con leche.',
+
+    imageUrl: '/assets/products/caja_de_chocolate_blanco_choco_withe_35_cacao.webp',
+
+  },
+
+  {
+
+    id: 'caja-chocolate-capuccino-45',
+
+    name: 'Chocolate Capuccino 45% Cacao',
+
+    category: 'Chocolates de Sabores',
+
+    categoryKey: 'chocolates_sabores',
+
+    description: 'Fusión aromática de cacao fino y granos de cafe selectos.',
+
+    imageUrl: '/assets/products/caja_de_chocolate_capuccino_45_cacao.webp',
+
+  },
+
+  {
+
+    id: 'caja-chocolate-choco-berries-70',
+
+    name: 'Chocolate Choco Berries 70% Cacao',
+
+    category: 'Chocolates de Sabores',
+
+    categoryKey: 'chocolates_sabores',
+
+    description: 'Intenso cacao al 70% contrastado con frutos rojos deshidratados.',
+
+    imageUrl: '/assets/products/caja_de_chocolate_choco_berries_70_cacao.webp',
+
+    isPopular: true,
+
+  },
+
+  {
+
+    id: 'caja-chocolate-choco-dark-70',
+
+    name: 'Chocolate Choco Dark 70% Cacao',
+
+    category: 'Chocolates de Sabores',
+
+    categoryKey: 'chocolates_sabores',
+
+    description: 'Pureza de origen con un 70% de cacao fino de aroma.',
+
+    imageUrl: '/assets/products/caja_de_chocolate_choco_dark_70_cacao.webp',
+
+  },
+
+  {
+
+    id: 'caja-chocolate-almendra-50',
+
+    name: 'Chocolate con Almendra 50% Cacao',
+
+    category: 'Chocolates de Sabores',
+
+    categoryKey: 'chocolates_sabores',
+
+    description: 'Equilibrada mezcla de cacao al 50% con trozos crocantes de almendra.',
+
+    imageUrl: '/assets/products/caja_de_chocolate_con_almendra_50_cacao.webp',
+
+  },
+
+  {
+
+    id: 'caja-chocolate-coco-50',
+
+    name: 'Chocolate con Coco 50% Cacao',
+
+    category: 'Chocolates de Sabores',
+
+    categoryKey: 'chocolates_sabores',
+
+    description: 'Tableta artesanal de chocolate con hojuelas de coco natural tostado.',
+
+    imageUrl: '/assets/products/caja_de_chocolate_con_coco_50_cacao.webp',
+
+  },
+
+  {
+
+    id: 'caja-chocolate-kiwicha-50',
+
+    name: 'Chocolate con Kiwicha 50% Cacao',
+
+    category: 'Chocolates de Sabores',
+
+    categoryKey: 'chocolates_sabores',
+
+    description: 'Grano andino pop de kiwicha envuelto en chocolate al 50%.',
+
+    imageUrl: '/assets/products/caja_de_chocolate_con_kiwicha_50_cacao.webp',
+
+  },
+
+  {
+
+    id: 'caja-chocolate-maca-70',
+
+    name: 'Chocolate con Maca 70% Cacao',
+
+    category: 'Chocolates de Sabores',
+
+    categoryKey: 'chocolates_sabores',
+
+    description: 'Poder energizante de la maca andina con cacao puro al 70%.',
+
+    imageUrl: '/assets/products/caja_de_chocolate_con_maca_70_cacao.webp',
+
+  },
+
+  {
+
+    id: 'caja-chocolate-naranja-60',
+
+    name: 'Chocolate con Naranja 60% Cacao',
+
+    category: 'Chocolates de Sabores',
+
+    categoryKey: 'chocolates_sabores',
+
+    description: 'Armonía cítrica de aceites y cáscaras de naranja con cacao al 60%.',
+
+    imageUrl: '/assets/products/caja_de_chocolate_con_naranja_60_cacao.webp',
+
+    isPopular: true,
+
+  },
+
+  {
+
+    id: 'caja-chocolate-extra-oscuro-85',
+
+    name: 'Chocolate Extra Oscuro 85% Cacao',
+
+    category: 'Chocolates de Sabores',
+
+    categoryKey: 'chocolates_sabores',
+
+    description: 'Máxima intensidad para conocedores del cacao puro de alta concentración.',
+
+    imageUrl: '/assets/products/caja_de_chocolate_extra_oscuro_85_cacao.webp',
+
+  },
+
+  {
+
+    id: 'caja-chocolate-misky-late-arandanos-50',
+
+    name: 'Chocolate Misky Late con Arándanos 50% Cacao',
+
+    category: 'Chocolates de Sabores',
+
+    categoryKey: 'chocolates_sabores',
+
+    description: 'Perfil dulce y lácteo complementado con la acidez de arándanos enteros.',
+
+    imageUrl: '/assets/products/caja_de_chocolate_misky_late_con_arandanos_50_cacao.webp',
+
+  },
+
+  {
+
+    id: 'caja-chocolate-mix-andino-60',
+
+    name: 'Chocolate Mix Andino 60% Cacao',
+
+    category: 'Chocolates de Sabores',
+
+    categoryKey: 'chocolates_sabores',
+
+    description: 'Combinación de granos nativos y frutos andinos en cacao al 60%.',
+
+    imageUrl: '/assets/products/caja_de_chocolate_mix_andino_60_cacao.webp',
+
+  },
+
+  {
+
+    id: 'caja-chocolate-reforzado-kiwicha-90',
+
+    name: 'Chocolate Reforzado con Kiwicha 90% Cacao',
+
+    category: 'Chocolates de Sabores',
+
+    categoryKey: 'chocolates_sabores',
+
+    description: 'Alta pureza al 90% combinada con kiwicha tostada.',
+
+    imageUrl: '/assets/products/caja_de_chocolate_reforzado_con_kiwicha_90_cacao.webp',
+
+  },
+
+  {
+
+    id: 'caja-chocolates-prodigio',
+
+    name: 'Caja de Chocolates Prodigio',
+
+    category: 'Chocolates de Sabores',
+
+    categoryKey: 'chocolates_sabores',
+
+    description: 'Selección exclusiva de chocolates finos línea Prodigio.',
+
+    imageUrl: '/assets/products/caja_de_chocolates_prodigio.webp',
+
+  },
+
+  {
+
+    id: 'chocolate-prodigio-kiwicha',
+
+    name: 'Chocolate Prodigio con Kiwicha',
+
+    category: 'Chocolates de Sabores',
+
+    categoryKey: 'chocolates_sabores',
+
+    description: 'Línea Prodigio con kiwicha crocante y notas suaves de leche.',
+
+    imageUrl: '/assets/products/chocolate_prodigio_con_kiwicha.webp',
+
+  },
+
+  {
+
+    id: 'chocolate-prodigio-leche-cacao',
+
+    name: 'Chocolate Prodigio con Leche y Cacao',
+
+    category: 'Chocolates de Sabores',
+
+    categoryKey: 'chocolates_sabores',
+
+    description: 'Barra cremosa con balance ideal entre cacao y leche entera.',
+
+    imageUrl: '/assets/products/chocolate_prodigio_con_leche_y_cacao.webp',
+
+  },
+
+  {
+
+    id: 'chocolate-prodigio-mani',
+
+    name: 'Chocolate Prodigio con mani',
+
+    category: 'Chocolates de Sabores',
+
+    categoryKey: 'chocolates_sabores',
+
+    description: 'Crocantes trozos de mani tostado en cobertura de chocolate gourmet.',
+
+    imageUrl: '/assets/products/chocolate_prodigio_con_mani.webp',
+
+  },
+
+  {
+
+    id: 'chocolate-witakao',
+
+    name: 'Chocolate Witakao',
+
+    category: 'Chocolates de Sabores',
+
+    categoryKey: 'chocolates_sabores',
+
+    description: 'Especialidad Witakao elaborada con cacao nativo y receta tradicional.',
+
+    imageUrl: '/assets/products/chocolate_witakao.webp',
+
+  },
+
+  {
+
+    id: 'empaque-chocolate-aguaymanto-arandanos-100g',
+
+    name: 'Chocolate con Aguaymanto y Arándanos 100g',
+
+    category: 'Chocolates de Sabores',
+
+    categoryKey: 'chocolates_sabores',
+
+    description: 'Tableta en doypack con frutos deshidratados y cacao ayacuchano.',
+
+    imageUrl: '/assets/products/empaque_de_chocolate_con_aguaymanto_y_arandanos_100g.webp',
+
+  },
+
+
+
+  // ========================================================
+  // 3. GRAGEADOS (palabra "GRAGEAS")
+  // ========================================================
+  {
+
+    id: 'empaque-chocolate-cafe-100g',
+
+    name: 'Grageas de cafe con Chocolate 100g',
+
+    category: 'Grageados',
+
+    categoryKey: 'grageados',
+
+    description: 'Granos de cafe tostado recubiertos de chocolate bitter en empaque de 100g.',
+
+    imageUrl: '/assets/products/empaque_de_chocolate_con_cafe_100g.webp',
+
+    isPopular: true,
+
+  },
+
+  {
+
+    id: 'empaque-grageas-almendras-chocolate-leche',
+
+    name: 'Grageas de Almendras con Chocolate y Leche',
+
+    category: 'Grageados',
+
+    categoryKey: 'grageados',
+
+    description: 'Almendras enteras tostadas banadas en chocolate con leche.',
+
+    imageUrl: '/assets/products/empaque_de_grageas_de_almendras_con_chocolate_y_leche.webp',
+
+  },
+
+  {
+
+    id: 'empaque-grageas-cacao-chocolate',
+
+    name: 'Grageas de Cacao Recubierto con Chocolate',
+
+    category: 'Grageados',
+
+    categoryKey: 'grageados',
+
+    description: 'Granos de cacao enteros tostados recubiertos de chocolate bitter.',
+
+    imageUrl: '/assets/products/empaque_de_grageas_de_cacao_recubierto_con_chocolate.webp',
+
+  },
+
+  {
+
+    id: 'empaque-grageas-cacao-tostado-chocolate',
+
+    name: 'Grageas de Cacao Tostado con Chocolate',
+
+    category: 'Grageados',
+
+    categoryKey: 'grageados',
+
+    description: 'Textura crujiente de granos finos con cobertura de chocolate gourmet.',
+
+    imageUrl: '/assets/products/empaque_de_grageas_de_cacao_tostado_recubierto_con_chocolate.webp',
+
+  },
+
+  {
+
+    id: 'empaque-grageas-naranja-chocolate',
+
+    name: 'Grageas de Naranja con Chocolate',
+
+    category: 'Grageados',
+
+    categoryKey: 'grageados',
+
+    description: 'Centros cítricos confitados de naranja banados en chocolate fino.',
+
+    imageUrl: '/assets/products/empaque_de_grageas_de_naranja_con_chocolate.webp',
+
+  },
+
+  {
+
+    id: 'empaque-grageas-pina-chocolate',
+
+    name: 'Grageas de pina con Chocolate',
+
+    category: 'Grageados',
+
+    categoryKey: 'grageados',
+
+    description: 'Trozos de pina deshidratada tropical cubiertos de chocolate.',
+
+    imageUrl: '/assets/products/empaque_de_grageas_de_pina_con_chocolate.webp',
+
+  },
+
+  {
+
+    id: 'empaque-grageas-mix-arandanos-aguaymanto',
+
+    name: 'Grageas Mix de Arándanos y Aguaymanto',
+
+    category: 'Grageados',
+
+    categoryKey: 'grageados',
+
+    description: 'Dúo andino antioxidante recubierto en chocolate bitter artesanal.',
+
+    imageUrl: '/assets/products/empaque_de_grageas_mix_de_arandanos_y_aguaymanto.webp',
+
+    isPopular: true,
+
+  },
+
+  {
+
+    id: 'empaque-premium-grageas-cafe-chocolate',
+
+    name: 'Grageas Premium de cafe con Chocolate',
+
+    category: 'Grageados',
+
+    categoryKey: 'grageados',
+
+    description: 'Granos de cafe arábico tostados banados en chocolate de altura.',
+
+    imageUrl: '/assets/products/empaque_premium_de_grageas_de_cafe_con_chocolate.webp',
+
+  },
+
+  {
+
+    id: 'grageas-almendras-chocolate',
+
+    name: 'Grageas de Almendras banadas en Chocolate',
+
+    category: 'Grageados',
+
+    categoryKey: 'grageados',
+
+    description: 'Almendras seleccionadas con baño de chocolate oscuro de origen.',
+
+    imageUrl: '/assets/products/grageas_de_almendras_banadas_en_chocolate.webp',
+
+  },
+
+  {
+
+    id: 'grageas-almendras-chocolate-leche',
+
+    name: 'Grageas de Almendras con Chocolate con Leche',
+
+    category: 'Grageados',
+
+    categoryKey: 'grageados',
+
+    description: 'Almendras premium con doble capa de chocolate con leche.',
+
+    imageUrl: '/assets/products/grageas_de_almendras_con_chocolate_con_leche.webp',
+
+  },
+
+  {
+
+    id: 'grageas-arandanos-aguaymanto-chocolate',
+
+    name: 'Grageas de Arándanos y Aguaymanto con Chocolate',
+
+    category: 'Grageados',
+
+    categoryKey: 'grageados',
+
+    description: 'Frutos deshidratados cubiertos en chocolate semiamargo.',
+
+    imageUrl: '/assets/products/grageas_de_arandanos_y_aguaymanto_banadas_en_chocolate.webp',
+
+  },
+
+  {
+
+    id: 'grageas-cacao-tostado-chocolate-blanco',
+
+    name: 'Grageas de Cacao Tostado con Chocolate Blanco',
+
+    category: 'Grageados',
+
+    categoryKey: 'grageados',
+
+    description: 'Contraste entre el grano crocante de cacao y la dulzura del chocolate blanco.',
+
+    imageUrl: '/assets/products/grageas_de_cacao_tostado_banadas_en_chocolate_blanco.webp',
+
+  },
+
+  {
+
+    id: 'grageas-cafe-tostado-chocolate-blanco',
+
+    name: 'Grageas de cafe Tostado con Chocolate Blanco',
+
+    category: 'Grageados',
+
+    categoryKey: 'grageados',
+
+    description: 'Grano de cafe tostado bañado en suave chocolate blanco de manteca pura.',
+
+    imageUrl: '/assets/products/grageas_de_cafe_tostado_banadas_en_chocolate_blanco.webp',
+
+  },
+
+  {
+
+    id: 'grageas-cafe-tostado-recubierto-chocolate-blanco',
+
+    name: 'Grageas de cafe Tostado Recubiertas con Chocolate Blanco',
+
+    category: 'Grageados',
+
+    categoryKey: 'grageados',
+
+    description: 'Especialidad de cafe gourmet y manteca de cacao fina.',
+
+    imageUrl: '/assets/products/grageas_de_cafe_tostado_recubierto_con_chocolate_blanco.webp',
+
+  },
+
+  {
+
+    id: 'grageas-mani-tostado-recubiertas-chocolate',
+
+    name: 'Grageas de mani Tostado con Chocolate',
+
+    category: 'Grageados',
+
+    categoryKey: 'grageados',
+
+    description: 'Clásicas y crujientes grageas de mani recubiertas de chocolate artesanal.',
+
+    imageUrl: '/assets/products/grageas_de_mani_tostado_recubiertas_con_chocolate.webp',
+
+  },
+
+
+
+  // ========================================================
+  // 4. cafe ("cafe_TUESTE" y "Geisha")
+  // ========================================================
+  {
+
+    id: 'cafe-tueste-americano-50g',
+
+    name: 'cafe Tueste Americano 50g',
+
+    category: 'cafe',
+
+    categoryKey: 'cafe',
+
+    description: 'cafe de altura con tueste medio americano, notas florales y frutales suaves.',
+
+    imageUrl: '/assets/products/cafe_tueste_americano_50g.webp',
+
+  },
+
+  {
+
+    id: 'cafe-tueste-americano-250g',
+
+    name: 'cafe Tueste Americano 250g',
+
+    category: 'cafe',
+
+    categoryKey: 'cafe',
+
+    description: 'Presentación 250g de cafe arábico especial con tueste medio.',
+
+    imageUrl: '/assets/products/cafe_tueste_americano_250g.webp',
+
+  },
+
+  {
+
+    id: 'cafe-tueste-frances-100g',
+
+    name: 'cafe Tueste frances 100g',
+
+    category: 'cafe',
+
+    categoryKey: 'cafe',
+
+    description: 'Tueste oscuro estilo frances con cuerpo pronunciado y notas a chocolate amargo.',
+
+    imageUrl: '/assets/products/cafe_tueste_frances_100g.webp',
+
+  },
+
+  {
+
+    id: 'cafe-tueste-frances-250g',
+
+    name: 'cafe Tueste frances 250g',
+
+    category: 'cafe',
+
+    categoryKey: 'cafe',
+
+    description: 'cafe de especialidad en tueste oscuro intenso para espresso o cafetera italiana.',
+
+    imageUrl: '/assets/products/cafe_tueste_frances_250g.webp',
+
+    isPopular: true,
+
+  },
+
+  {
+
+    id: 'cafe-tueste-frances-1kg',
+
+    name: 'cafe Tueste frances 1kg',
+
+    category: 'cafe',
+
+    categoryKey: 'cafe',
+
+    description: 'Bolsa institucional de 1kg para cafeterías y amantes del cafe de especialidad.',
+
+    imageUrl: '/assets/products/cafe_tueste_frances_1kg.webp',
+
+  },
+
+  {
+
+    id: 'geisha-cafe-tostado-grano-entero-250g',
+
+    name: 'cafe Geisha Tostado Grano Entero 250g',
+
+    category: 'cafe',
+
+    categoryKey: 'cafe',
+
+    description: 'Variedad Geisha de alta gama con aroma a jazmín, bergamota y acidez brillante.',
+
+    imageUrl: '/assets/products/Geisha_cafe_tostado_grano_entero_250g.webp',
+
+    isPopular: true,
+
+  },
+
+
+
+  // ========================================================
+  // 5. DERIVADOS ("POLVO_DE_CACAO", "PASTA_DE_CACAO", "MANTEQUILLA DE mani", "OBLEAS")
+  // ========================================================
+  {
+
+    id: 'pouch-obleas-chocolate-leche',
+
+    name: 'Milk Obleas de Chocolate con Leche 50% Cacao',
+
+    category: 'Derivados',
+
+    categoryKey: 'derivados',
+
+    description: 'Obleas reposteras al 50% de cacao listas para fundir o degustar directamente.',
+
+    imageUrl: '/assets/products/pouch_de_obleas_de_chocolate_con_leche.webp',
+
+    isPopular: true,
+
+  },
+
+  {
+
+    id: 'empaque-obleas-blancas-cacao',
+
+    name: 'Obleas Blancas con Manteca de Cacao',
+
+    category: 'Derivados',
+
+    categoryKey: 'derivados',
+
+    description: 'Gotas de manteca de cacao pura ideales para pastelería fina.',
+
+    imageUrl: '/assets/products/empaque_de_obleas_blancas_con_cacao.webp',
+
+  },
+
+  {
+
+    id: 'frasco-mantequilla-mani-natural',
+
+    name: 'Mantequilla de mani Natural',
+
+    category: 'Derivados',
+
+    categoryKey: 'derivados',
+
+    description: '100% mani tostado seleccionado, sin azúcares añadidos ni conservantes.',
+
+    imageUrl: '/assets/products/frasco_de_mantequilla_de_mani_natural.webp',
+
+  },
+
+  {
+
+    id: 'frasco-mantequilla-mani-chocolate',
+
+    name: 'Mantequilla de Choco mani',
+
+    category: 'Derivados',
+
+    categoryKey: 'derivados',
+
+    description: 'Combinación cremosa de mani tostado y auténtico cacao ayacuchano.',
+
+    imageUrl: '/assets/products/frasco_de_mantequilla_de_mani_y_chocolate.webp',
+
+    isPopular: true,
+
+  },
+
+  {
+
+    id: 'pasta-cacao-gourmet-90g',
+
+    name: 'Pasta de Cacao Gourmet 90g',
+
+    category: 'Derivados',
+
+    categoryKey: 'derivados',
+
+    description: '100% pasta pura de cacao sin azúcar para bebidas o recetas de autor.',
+
+    imageUrl: '/assets/products/pasta_de_cacao_gourmet_90g.webp',
+
+  },
+
+  {
+
+    id: 'pasta-cacao-gourmet-500g',
+
+    name: 'Pasta de Cacao Gourmet 500g',
+
+    category: 'Derivados',
+
+    categoryKey: 'derivados',
+
+    description: 'Presentación de medio kilo para repostería y preparación tradicional.',
+
+    imageUrl: '/assets/products/pasta_de_cacao_gourmet_500g.webp',
+
+  },
+
+  {
+
+    id: 'pasta-cacao-gourmet-1kg',
+
+    name: 'Pasta de Cacao Gourmet 1kg',
+
+    category: 'Derivados',
+
+    categoryKey: 'derivados',
+
+    description: 'Bloque artesanal de 1kg de licor de cacao puro al 100%.',
+
+    imageUrl: '/assets/products/pasta_de_cacao_gourmet_1kg.webp',
+
+  },
+
+  {
+
+    id: 'polvo-cacao-150g',
+
+    name: 'Polvo de Cacao 150g',
+
+    category: 'Derivados',
+
+    categoryKey: 'derivados',
+
+    description: 'Cacao puro desgrasado en polvo, ideal para batidos y repostería.',
+
+    imageUrl: '/assets/products/polvo_de_cacao_150g.webp',
+
+  },
+
+  {
+
+    id: 'polvo-cacao-250g',
+
+    name: 'Polvo de Cacao 250g',
+
+    category: 'Derivados',
+
+    categoryKey: 'derivados',
+
+    description: 'Empaque de 250g de cacao fino en polvo sin aditivos químicos.',
+
+    imageUrl: '/assets/products/polvo_de_cacao_250g.webp',
+
+  },
+
+
+
+  // ========================================================
+  // 6. LICORES (palabra "LICOR")
+  // ========================================================
+  {
+
+    id: 'botella-licor-cafe-premium',
+
+    name: 'Licor de cafe Premium',
+
+    category: 'Licores',
+
+    categoryKey: 'licores',
+
+    description: 'Macerado artesanal elaborado con destilado fino y granos de cafe de altura.',
+
+    imageUrl: '/assets/products/botella_de_licor_de_cafe_premium.webp',
+
+    isPopular: true,
+
+  },
+
+  {
+
+    id: 'botella-licor-crema-cafe-arabico',
+
+    name: 'Crema de Licor de cafe Arabico',
+
+    category: 'Licores',
+
+    categoryKey: 'licores',
+
+    description: 'Cremoso licor con notas dulces de leche y la esencia del cafe arábico.',
+
+    imageUrl: '/assets/products/botella_de_licor_de_crema_de_cafe_arabico.webp',
+
+  },
+
+
+
+  // ========================================================
+  // 7. BOMBONES ("BONOMIX x8" y "CAJA_DE_CHOCOTEJAS_ARTESANALES")
+  // ========================================================
+  {
+
+    id: 'bonomix-pack-8',
+
+    name: 'Bonomix Pack x8',
+
+    category: 'Bombones',
+
+    categoryKey: 'bombones',
+
+    description: 'Caja surtida con 8 bombones finos rellenos de cremas y licores artesanales.',
+
+    imageUrl: '/assets/products/bonomix_pack_x_8.webp',
+
+    isPopular: true,
+
+  },
+
+  {
+
+    id: 'caja-chocotejas-artesanales',
+
+    name: 'Caja de Chocotejas Artesanales',
+
+    category: 'Bombones',
+
+    categoryKey: 'bombones',
+
+    description: 'Tradicionales chocotejas con manjar blanco casero y frutos secos selectos.',
+
+    imageUrl: '/assets/products/caja_de_chocotejas_artesanales.webp',
+
+    isPopular: true,
+
+  },
+
+];
+
+
+
+// Compatibilidad hacia atrás con App.tsx y vistas existentes
+export type ProductItem = Product;

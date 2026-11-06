@@ -1,18 +1,16 @@
 import React, { useState } from 'react';
+import type { NavPage } from './Navbar';
 
 interface FooterProps {
-  onNavigate?: (page: string) => void;
+  onNavigate?: (page: NavPage) => void;
   onSelectCategory?: (category: string) => void;
-  onOpenReclamaciones?: () => void;
-  onOpenPoliticas?: () => void;
 }
 
 export const Footer: React.FC<FooterProps> = ({
   onNavigate,
   onSelectCategory,
-  onOpenReclamaciones,
-  onOpenPoliticas,
 }) => {
+
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
 
@@ -28,7 +26,7 @@ export const Footer: React.FC<FooterProps> = ({
   return (
     <footer className="w-full bg-[#FAF7F2] text-[#2B1B17] pt-16 pb-12 px-6 sm:px-10 lg:px-16 border-t border-stone-200/60">
       <div className="max-w-6xl mx-auto">
-        
+
         {/* Cabecera Central Editorial (Estilo Avelina) */}
         <div className="text-center mb-14">
           <h2 className="font-serif text-3xl sm:text-4xl tracking-[0.18em] uppercase font-medium text-[#2B1B17]">
@@ -41,7 +39,7 @@ export const Footer: React.FC<FooterProps> = ({
 
         {/* 3 Columnas Descriptivas (Sin Recipes) */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 sm:gap-12 pb-14 border-b border-stone-200/60 text-xs sm:text-[13px] leading-relaxed">
-          
+
           {/* Columna 1: Información */}
           <div className="space-y-3 font-light">
             <h3 className="font-serif text-sm font-semibold tracking-wider text-[#2B1B17] uppercase mb-4">
@@ -114,23 +112,26 @@ export const Footer: React.FC<FooterProps> = ({
                 </button>
               </li>
               <li>
-                <button
-                  type="button"
-                  onClick={onOpenPoliticas}
-                  className="hover:text-[#B58A52] transition-colors"
+                <a
+                  href="/docs/politicas de gestion de calidad.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-[#B58A52] transition-colors block"
                 >
                   Política de Gestión de Calidad
-                </button>
+                </a>
               </li>
+
               <li>
                 <button
                   type="button"
-                  onClick={onOpenReclamaciones}
-                  className="hover:text-[#B58A52] transition-colors"
+                  onClick={() => onNavigate && onNavigate('reclamaciones')}
+                  className="hover:text-[#B58A52] transition-colors text-left block"
                 >
                   Libro de Reclamaciones
                 </button>
               </li>
+
               <li>
                 <a
                   href="https://wa.me/51967179747"
@@ -148,7 +149,7 @@ export const Footer: React.FC<FooterProps> = ({
 
         {/* Fila Inferior: Newsletter + Redes Sociales + Pagos */}
         <div className="pt-10 flex flex-col md:flex-row items-start md:items-end justify-between gap-8 text-xs font-light">
-          
+
           {/* Newsletter a la izquierda */}
           <div className="w-full md:w-5/12">
             <p className="text-stone-800 text-[13px] font-medium mb-3">
@@ -179,7 +180,7 @@ export const Footer: React.FC<FooterProps> = ({
 
           {/* Redes Sociales y Métodos de Pago a la derecha */}
           <div className="w-full md:w-auto flex flex-col md:items-end gap-4">
-            
+
             {/* Follow Us */}
             <div className="flex items-center gap-4">
               <span className="text-stone-500 text-[11px] uppercase tracking-wider font-medium">
@@ -237,11 +238,27 @@ export const Footer: React.FC<FooterProps> = ({
 
         </div>
 
-        {/* Copyright */}
-        <div className="mt-12 pt-6 border-t border-stone-200/50 text-center text-[11px] text-stone-400 font-light">
-          © {new Date().getFullYear()} Royal Raymi S.A.C. Todos los derechos reservados. Hecho con orgullo en Ayacucho.
+                {/* Copyright & Créditos */}
+        <div className="mt-12 pt-6 border-t border-stone-200/50 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 text-center text-[11px] text-stone-400 font-light">
+          <span>© {new Date().getFullYear()} Royal Raymi S.A.C. Todos los derechos reservados.</span>
+          <span className="hidden sm:inline opacity-40">•</span>
+          <div className="inline-flex items-center gap-1.5">
+            <span>Hecho por</span>
+            <img
+              src="/assets/brand/logo_SWP.webp" // Si lo guardaste como .png o directo en /assets/, ajusta la ruta aquí
+              alt="Shocking Wave Productions"
+              className="h-4 w-auto object-contain inline-block align-middle"
+              onError={(e) => {
+                // Respaldo por si está en la raíz de assets o con extensión .png
+                const target = e.currentTarget;
+                if (!target.dataset.tried) {
+                  target.dataset.tried = 'true';
+                  target.src = '/assets/logo_SWP.webp';
+                }
+              }}
+            />
+          </div>
         </div>
-
       </div>
     </footer>
   );

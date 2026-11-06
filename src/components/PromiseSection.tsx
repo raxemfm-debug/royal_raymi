@@ -14,11 +14,11 @@ export const PromiseSection: React.FC = () => {
               <div className="absolute -inset-2 bg-gradient-to-tr from-[#3B241C]/20 to-[#B58A52]/20 rounded-2xl filter blur-md opacity-70 group-hover:opacity-100 transition duration-500" />
               <div className="relative bg-white p-3 rounded-2xl shadow-xl border border-stone-200/70">
                 <img
-                  src="/assets/producers/ing_doris_Gerente_General.jpg"
+                 src="/assets/producers/ing_doris.webp"
                   alt="Ing. Doris - Gerente General Royal Raymi"
                   className="w-full h-[400px] object-cover rounded-xl"
                   onError={(e) => {
-                    e.currentTarget.src = '/assets/producers/foto_principal.jpeg';
+                    e.currentTarget.src = '/assets/producers/ing_doris.webp';
                   }}
                 />
                 <div className="mt-3 text-center">

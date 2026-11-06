@@ -2,7 +2,7 @@ import React from "react";
 
 export const WhatsAppWidget: React.FC = () => {
   const phoneNumber = "967179747"; // Reemplaza con el WhatsApp oficial de Royal Raymi
-  const message = encodeURIComponent("Hola Royal Raymi, deseo consultar disponibilidad y reservar productos de su catálogo.");
+  const message = encodeURIComponent("Hola Rosita!, deseo consultar disponibilidad y reservar productos del catálogo de su tienda web.");
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
 
   return (

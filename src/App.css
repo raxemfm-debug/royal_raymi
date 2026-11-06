@@ -181,4 +181,27 @@
     right: 0;
     border-right-color: var(--border);
   }
+
+  /* Evita el desbordamiento horizontal en móvil */
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+}
+
+html,
+body,
+#root {
+  overflow-x: clip;
+}
+
+/* Compatibilidad con navegadores que no soportan overflow: clip */
+@supports not (overflow-x: clip) {
+  html,
+  body,
+  #root {
+    overflow-x: hidden;
+  }
+}
 }
