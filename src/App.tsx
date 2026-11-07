@@ -18,6 +18,10 @@ import { MapPin, Navigation, Clock, } from "lucide-react";
 import imgMontefino from "./assets/puntos_de_venta/punto_de_venta_montefino.webp";
 import imgUNSCH from "./assets/puntos_de_venta/punto_de_venta_tiendas UNSCH.webp";
 import imgVimarket from "./assets/puntos_de_venta/punto_de_venta_Vimarket.webp";
+import imgBiomercado from './assets/puntos_de_venta/Biomercado_andino.webp';
+import imgGoodMarket from './assets/puntos_de_venta/Good_Market.webp';
+import imgPlaza4 from './assets/puntos_de_venta/plaza_4.webp';
+import imgPlazaVea from './assets/puntos_de_venta/Plaza_vea.webp';
 import { CorporateVideo } from './components/CorporateVideo';
 import { BlogView } from './components/BlogView';
 import { TikTokGallery } from './components/TiktokGallery';
@@ -50,15 +54,6 @@ const PUNTOS_DE_VENTA = [
     mapsUrl: "https://maps.app.goo.gl/ZPkggzpPubcJ5DLf6",
     image: imgUNSCH,
   },
-  {
-    id: "Centro-Comercial-ViMarket",
-    name: "Centro Comercial ViMarket",
-    address: "Jr. Cuzco 153, Huamanga, Ayacucho",
-    reference: "Venta directa de chocolates, café y derivados",
-    schedule: "Lunes a Sábado: 9:00 AM - 8:00 PM",
-    mapsUrl: "https://maps.app.goo.gl/d161MTR49HHoLFUo8",
-    image: imgVimarket,
-  },
 
   // --- 7 Nuevos Puntos de Venta ---
   {
@@ -68,7 +63,7 @@ const PUNTOS_DE_VENTA = [
     reference: "Punto de venta y productos naturales",
     schedule: "Lunes a Sábado: 8:30 AM - 8:00 PM",
     mapsUrl: "https://maps.app.goo.gl/bpTeajMretUZ96kq7",
-    image: "/assets/brand/Royal-Raymi-logo-cacao-profundo.png",
+    image: imgBiomercado,
   },
   {
     id: "Visuchi-EIRL",
@@ -80,13 +75,13 @@ const PUNTOS_DE_VENTA = [
     image: "/assets/brand/Royal-Raymi-logo-cacao-profundo.png",
   },
   {
-    id: "Good-Marketing",
-    name: "Good Marketing",
+    id: "Good-Market",
+    name: "Good Market",
     address: "Jr. Asamblea 150, Ayacucho 05003",
     reference: "Distribuidor oficial de productos Royal Raymi",
     schedule: "Lunes a Sábado: 9:00 AM - 8:30 PM",
     mapsUrl: "https://maps.app.goo.gl/mxhVLwFabVF733Bt5",
-    image: "/assets/brand/Royal-Raymi-logo-cacao-profundo.png",
+    image: imgGoodMarket,
   },
   {
     id: "ViMarket-Asamblea",
@@ -95,7 +90,7 @@ const PUNTOS_DE_VENTA = [
     reference: "Módulo y sucursal ViMarket",
     schedule: "Lunes a Domingo: 8:00 AM - 9:30 PM",
     mapsUrl: "https://maps.app.goo.gl/Fu6a3XMUZwZS9gx29",
-    image: imgVimarket, // Reutiliza el asset de ViMarket
+    image: imgVimarket,
   },
   {
     id: "Alcides",
@@ -113,7 +108,7 @@ const PUNTOS_DE_VENTA = [
     reference: "Galería comercial y punto de venta",
     schedule: "Lunes a Sábado: 9:00 AM - 9:00 PM",
     mapsUrl: "https://maps.app.goo.gl/EkJ2F3w4XGpev2Dc9",
-    image: "/assets/brand/Royal-Raymi-logo-cacao-profundo.png",
+    image: imgPlaza4,
   },
   {
     id: "Plaza-Vea",
@@ -122,7 +117,7 @@ const PUNTOS_DE_VENTA = [
     reference: "Supermercado - Sección chocolates y productos regionales",
     schedule: "Lunes a Domingo: 8:00 AM - 10:00 PM",
     mapsUrl: "https://maps.app.goo.gl/zUk5JeiTR8i288jA8",
-    image: "/assets/brand/Royal-Raymi-logo-cacao-profundo.png",
+    image: imgPlazaVea,
   },
 ];
 
