@@ -154,16 +154,14 @@ export function AvelinaHero() {
       >
         {BANNERS.map((banner, index) => {
           const active = index === currentIndex;
-          const light = banner.contrast === "light";
           return (
             <div
               key={banner.desktop}
               aria-hidden={!active}
-              className={`rr-hero-slide absolute inset-0 overflow-hidden transition-[opacity,transform] duration-1000 ease-out ${
-                active
-                  ? "z-[1] scale-100 opacity-100"
-                  : "pointer-events-none z-0 scale-[1.015] opacity-0"
-              }`}
+              className={`rr-hero-slide absolute inset-0 overflow-hidden transition-[opacity,transform] duration-1000 ease-out ${active
+                ? "z-[1] scale-100 opacity-100"
+                : "pointer-events-none z-0 scale-[1.015] opacity-0"
+                }`}
             >
               {/* <picture> descarga solo el formato adecuado al ancho de pantalla. */}
               <picture className="block h-full w-full">
@@ -184,37 +182,9 @@ export function AvelinaHero() {
                   draggable={false}
                 />
               </picture>
-
-              {/* Texto HTML legible en móvil; el arte original se conserva en escritorio. */}
-              <div className="md:hidden">
-                <div
-                  className={`absolute inset-x-0 top-0 px-[7%] pt-[7%] ${
-                    light ? "text-[#FFFBF4]" : "text-[#4A2E2B]"
-                  }`}
-                >
-                  <p
-                    className={`font-serif text-[clamp(0.95rem,4.1vw,1.5rem)] italic tracking-wide ${
-                      light ? "text-[#EAD6AA]" : "text-[#BD3027]"
-                    }`}
-                  >
-                    {banner.eyebrow}
-                  </p>
-                  <h2 className="mt-1 max-w-[94%] font-serif text-[clamp(1.35rem,6.2vw,2.75rem)] leading-[1.04] tracking-[-0.035em]">
-                    {banner.title}
-                  </h2>
-                  <p
-                    className={`mt-2 max-w-[85%] text-[clamp(0.65rem,2.8vw,0.98rem)] leading-[1.45] ${
-                      light ? "text-white/85" : "text-[#5E4439]"
-                    }`}
-                  >
-                    {banner.description}
-                  </p>
-                </div>
-              </div>
             </div>
           );
         })}
-
         <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-between px-3 md:px-6">
           <button
             type="button"
@@ -245,9 +215,8 @@ export function AvelinaHero() {
                   onClick={() => setCurrentIndex(index)}
                   aria-label={`Ir al banner ${index + 1} de ${BANNERS.length}`}
                   aria-current={active ? "true" : undefined}
-                  className={`relative h-2.5 overflow-hidden rounded-full transition-[width,background-color] duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B58A52] ${
-                    active ? "w-9 bg-[#3B241C]/20" : "w-2.5 bg-[#3B241C]/35 hover:bg-[#3B241C]/65"
-                  }`}
+                  className={`relative h-2.5 overflow-hidden rounded-full transition-[width,background-color] duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B58A52] ${active ? "w-9 bg-[#3B241C]/20" : "w-2.5 bg-[#3B241C]/35 hover:bg-[#3B241C]/65"
+                    }`}
                 >
                   {active && (
                     <span
