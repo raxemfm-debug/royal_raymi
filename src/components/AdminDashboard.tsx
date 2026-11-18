@@ -17,7 +17,8 @@ import {
   X, 
   Archive,
   Search,
-  ArrowUpDown
+  ArrowUpDown,
+  Upload
 } from 'lucide-react';
 
 interface AdminDashboardProps {
@@ -39,6 +40,7 @@ export default function AdminDashboard({ onBackToStore, onLogout, adminEmail }: 
   // Modal Crear / Editar
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+  const [uploadingImage, setUploadingImage] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     category: 'Chocolates Tradicional',
@@ -120,6 +122,50 @@ export default function AdminDashboard({ onBackToStore, onLogout, adminEmail }: 
       isPopular: p.isPopular || false,
     });
     setIsModalOpen(true);
+  };
+
+  // Subida de imagen a Supabase Storage
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 5 * 1024 * 1024) {
+      alert('La imagen no debe superar los 5MB.');
+      return;
+    }
+
+    setUploadingImage(true);
+    try {
+      const fileExt = file.name.split('.').pop();
+      const cleanName = file.name
+        .replace(/\.[^/.]+$/, '')
+        .toLowerCase()
+        .replace(/[^a-z0-9]/g, '_');
+      const fileName = `${Date.now()}_${cleanName}.${fileExt}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('products')
+        .upload(fileName, file, {
+          cacheControl: '3600',
+          upsert: false,
+        });
+
+      if (uploadError) throw uploadError;
+
+      const { data } = supabase.storage
+        .from('products')
+        .getPublicUrl(fileName);
+
+      if (data?.publicUrl) {
+        setFormData(prev => ({ ...prev, imageUrl: data.publicUrl }));
+      }
+    } catch (error: any) {
+      console.error('Error al subir imagen:', error);
+      alert(`Error al subir imagen: ${error.message || 'Verifica que el bucket "products" exista y sea público en Supabase.'}`);
+    } finally {
+      setUploadingImage(false);
+      if (e.target) e.target.value = '';
+    }
   };
 
   const handleSaveProduct = async (e: React.FormEvent) => {
@@ -722,30 +768,56 @@ export default function AdminDashboard({ onBackToStore, onLogout, adminEmail }: 
                 </div>
               </div>
 
+              {/* Sección de Imagen con Botón de Cargar Archivo */}
               <div>
                 <label className="block text-xs font-semibold uppercase text-[#3B241C]/70 mb-1">
                   Ruta o URL de Imagen
                 </label>
-                <input
-                  type="text"
-                  value={formData.imageUrl}
-                  onChange={e => setFormData({ ...formData, imageUrl: e.target.value })}
-                  placeholder="/assets/products/caja_de_chocolate_70_con_garbanzo.webp"
-                  className="w-full px-4 py-2.5 rounded-xl border border-[#3B241C]/20 focus:outline-none focus:border-[#B58A52] text-sm"
-                />
+                <div className="flex items-center gap-2">
+                  <input
+                    type="text"
+                    value={formData.imageUrl}
+                    onChange={e => setFormData({ ...formData, imageUrl: e.target.value })}
+                    placeholder="/assets/products/... o sube una imagen"
+                    className="flex-1 px-4 py-2.5 rounded-xl border border-[#3B241C]/20 focus:outline-none focus:border-[#B58A52] text-sm"
+                  />
+                  <input
+                    type="file"
+                    id="admin-image-upload"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    className="hidden"
+                    disabled={uploadingImage}
+                  />
+                  <label
+                    htmlFor="admin-image-upload"
+                    className={`cursor-pointer px-4 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-colors whitespace-nowrap ${
+                      uploadingImage
+                        ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
+                        : 'bg-[#B58A52] text-white hover:bg-[#9E743F]'
+                    }`}
+                  >
+                    <Upload className="w-4 h-4" />
+                    {uploadingImage ? 'Subiendo...' : 'Subir Imagen'}
+                  </label>
+                </div>
+
                 {formData.imageUrl && (
-                  <div className="mt-2 flex items-center gap-3 p-2 bg-[#FAF7F2] rounded-xl border border-[#3B241C]/10">
+                  <div className="mt-2.5 flex items-center gap-3 p-2 bg-[#FAF7F2] rounded-xl border border-[#3B241C]/10">
                     <img 
                       src={formData.imageUrl} 
                       alt="Vista previa" 
-                      className="w-12 h-12 object-contain rounded-lg bg-white p-1"
+                      className="w-12 h-12 object-contain rounded-lg bg-white border border-[#3B241C]/10 p-1"
                       onError={(e) => {
                         const target = e.target as HTMLImageElement;
                         target.onerror = null;
                         target.src = '/assets/brand/Royal-Raymi-logo-cacao-profundo.png';
                       }}
                     />
-                    <span className="text-xs text-[#3B241C]/70">Vista previa</span>
+                    <div className="flex-1 overflow-hidden">
+                      <span className="text-xs font-semibold text-[#3B241C]">Vista previa lista</span>
+                      <p className="text-[11px] text-[#3B241C]/60 truncate">{formData.imageUrl}</p>
+                    </div>
                   </div>
                 )}
               </div>
