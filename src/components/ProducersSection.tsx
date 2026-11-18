@@ -29,11 +29,11 @@ const PRODUCERS: ProducerProfile[] = [
   },
   {
     id: 3,
-    name: "Productores de Café de Altura",
+    name: "Productores Cacaoteros",
     role: "Comunidad de Selva Alta",
     region: "Valle del Río Apurímac",
     image: "/assets/producers/productores2.webp", // 👈 .jpg
-    bio: "Cultivan microlotes de café arábica bajo sombra..."
+    bio: "Productores de cacao que cultivan en el VRAEM, preservando la biodiversidad y tradiciones locales..."
   },
   {
     id: 4,

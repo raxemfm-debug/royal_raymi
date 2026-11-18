@@ -4,7 +4,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 // Vite + React: conservar estas rutas relativas al componente.
 import bannerCafe from "../assets/banners/banner_cafe_peruano.webp";
-import bannerCafeMobile from "../assets/banners/cafe_de_calidad_mundial_mobile.webp";
+import bannerCafeMobile from "../assets/banners/banner_cafe_peruano_mobile.webp";
 import bannerChocotejas from "../assets/banners/chocotejas_premium.webp";
 import bannerChocotejasMobile from "../assets/banners/chocotejas_premium_mobile.webp";
 import bannerRoyalRaymi from "../assets/banners/royal_raymi_banner.webp";
